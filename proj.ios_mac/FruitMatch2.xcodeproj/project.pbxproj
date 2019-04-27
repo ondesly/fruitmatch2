@@ -23,6 +23,7 @@
 		907053A32273805100ADB1F3 /* logo@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 907053A02273805100ADB1F3 /* logo@3x.png */; };
 		907053A42273805100ADB1F3 /* logo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 907053A12273805100ADB1F3 /* logo@2x.png */; };
 		907053B822743DDE00ADB1F3 /* textures in Resources */ = {isa = PBXBuildFile; fileRef = 907053B722743DDE00ADB1F3 /* textures */; };
+		B1399404664EDF6E1D6A3C22 /* TableLayout.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B1399ECDFBC3FF2406897395 /* TableLayout.cpp */; };
 		B13997CE4C2CFC547D46C8B8 /* MenuScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B1399BB83D6F7CD7E1642BF9 /* MenuScene.cpp */; };
 		BF171245129291EC00B8313A /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF170DB012928DE900B8313A /* OpenGLES.framework */; };
 		BF1712471292920000B8313A /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = BF170DB412928DE900B8313A /* libz.dylib */; };
@@ -48,6 +49,20 @@
 			proxyType = 1;
 			remoteGlobalIDString = A07A4C241783777C0073F6A7;
 			remoteInfo = "cocos2dx iOS";
+		};
+		9017D46E227470E2008A946D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1AC6FAE5180E9839004C840B /* cocos2d_libs.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 1551A33F158F2AB200E66CFE;
+			remoteInfo = "libcocos2d Mac";
+		};
+		9017D470227470E2008A946D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1AC6FAE5180E9839004C840B /* cocos2d_libs.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 507B40FD1C31BDD30067B53E;
+			remoteInfo = "libcocos2d tvOS";
 		};
 /* End PBXContainerItemProxy section */
 
@@ -82,6 +97,8 @@
 		907053B722743DDE00ADB1F3 /* textures */ = {isa = PBXFileReference; lastKnownFileType = folder; path = textures; sourceTree = "<group>"; };
 		B13991E93E1FC277809B1417 /* MenuScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuScene.h; sourceTree = "<group>"; };
 		B1399BB83D6F7CD7E1642BF9 /* MenuScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MenuScene.cpp; sourceTree = "<group>"; };
+		B1399EC4AFE833217BEA0AA1 /* TableLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TableLayout.h; sourceTree = "<group>"; };
+		B1399ECDFBC3FF2406897395 /* TableLayout.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TableLayout.cpp; sourceTree = "<group>"; };
 		BF170DB012928DE900B8313A /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		BF170DB412928DE900B8313A /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		BF1C47EA1293683800B63C5D /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
@@ -129,7 +146,9 @@
 		1AC6FAE6180E9839004C840B /* Products */ = {
 			isa = PBXGroup;
 			children = (
+				9017D46F227470E2008A946D /* libcocos2d Mac.a */,
 				1AC6FB07180E9839004C840B /* libcocos2d iOS.a */,
+				9017D471227470E2008A946D /* libcocos2d tvOS.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -209,6 +228,8 @@
 				46880B8519C43A87006E1F66 /* AppDelegate.h */,
 				B1399BB83D6F7CD7E1642BF9 /* MenuScene.cpp */,
 				B13991E93E1FC277809B1417 /* MenuScene.h */,
+				B1399ECDFBC3FF2406897395 /* TableLayout.cpp */,
+				B1399EC4AFE833217BEA0AA1 /* TableLayout.h */,
 			);
 			name = Classes;
 			path = ../Classes;
@@ -281,6 +302,20 @@
 			remoteRef = 1AC6FB06180E9839004C840B /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		9017D46F227470E2008A946D /* libcocos2d Mac.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = "libcocos2d Mac.a";
+			remoteRef = 9017D46E227470E2008A946D /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		9017D471227470E2008A946D /* libcocos2d tvOS.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = "libcocos2d tvOS.a";
+			remoteRef = 9017D470227470E2008A946D /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 /* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
@@ -309,6 +344,7 @@
 				46880B8819C43A87006E1F66 /* AppDelegate.cpp in Sources */,
 				1AF87B8A1F6F7822007BE51C /* main.m in Sources */,
 				B13997CE4C2CFC547D46C8B8 /* MenuScene.cpp in Sources */,
+				B1399404664EDF6E1D6A3C22 /* TableLayout.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
