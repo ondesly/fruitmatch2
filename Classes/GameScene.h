@@ -10,6 +10,10 @@ namespace cocos2d {
 
     namespace ui {
 
+        class Button;
+
+        class Label;
+
         class Widget;
 
     }
@@ -31,6 +35,9 @@ namespace fm {
 
         const std::string m_level_name;
 
+        cocos2d::Label *mMovesLabel;
+        cocos2d::Label *mGoalLabel;
+
     private:
 
         GameScene(const std::string &level_name);
@@ -38,6 +45,8 @@ namespace fm {
     private:
 
         cocos2d::ui::Widget *makeCell(bool is_enabled);
+
+        cocos2d::ui::Button *makeBackButton();
 
     };
 
