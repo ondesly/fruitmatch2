@@ -47,12 +47,10 @@ static cocos2d::Size smallResolutionSize = cocos2d::Size(480, 320);
 static cocos2d::Size mediumResolutionSize = cocos2d::Size(1024, 768);
 static cocos2d::Size largeResolutionSize = cocos2d::Size(2048, 1536);
 
-AppDelegate::AppDelegate()
-{
+AppDelegate::AppDelegate() {
 }
 
-AppDelegate::~AppDelegate() 
-{
+AppDelegate::~AppDelegate() {
 #if USE_AUDIO_ENGINE
     AudioEngine::end();
 #elif USE_SIMPLE_AUDIO_ENGINE
@@ -62,8 +60,7 @@ AppDelegate::~AppDelegate()
 
 // if you want a different context, modify the value of glContextAttrs
 // it will affect all platforms
-void AppDelegate::initGLContextAttrs()
-{
+void AppDelegate::initGLContextAttrs() {
     // set OpenGL context attributes: red,green,blue,alpha,depth,stencil,multisamplesCount
     GLContextAttrs glContextAttrs = {8, 8, 8, 8, 24, 8, 0};
 
@@ -72,16 +69,38 @@ void AppDelegate::initGLContextAttrs()
 
 // if you want to use the package manager to install more packages,  
 // don't modify or remove this function
-static int register_all_packages()
-{
+static int register_all_packages() {
     return 0; //flag for packages manager
+}
+
+namespace {
+
+    std::vector<int> get_dpi_variants(const std::string &directory) {
+        auto fullpath = FileUtils::getInstance()->fullPathForFilename(directory);
+        auto paths = cocos2d::FileUtils::getInstance()->listFiles(fullpath);
+
+        std::vector<int> variants;
+        for (auto &path : paths) {
+            const auto end = path.rfind('/');
+            const auto start = path.rfind('/', end - 1) + 1;
+            auto name = path.substr(start, end - start);
+
+            auto value = atoi(name.c_str());
+            if (value != 0) {
+                variants.push_back(value);
+            }
+        }
+
+        return variants;
+    }
+
 }
 
 bool AppDelegate::applicationDidFinishLaunching() {
     // initialize director
     auto director = Director::getInstance();
     auto glview = director->getOpenGLView();
-    if(!glview) {
+    if (!glview) {
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_WIN32) || (CC_TARGET_PLATFORM == CC_PLATFORM_MAC) || (CC_TARGET_PLATFORM == CC_PLATFORM_LINUX)
         glview = GLViewImpl::createWithRect("FruitMatch2", cocos2d::Rect(0, 0, designResolutionSize.width, designResolutionSize.height));
 #else
@@ -100,22 +119,28 @@ bool AppDelegate::applicationDidFinishLaunching() {
     glview->setDesignResolutionSize(designResolutionSize.width, designResolutionSize.height, ResolutionPolicy::NO_BORDER);
     auto frameSize = glview->getFrameSize();
     // if the frame's height is larger than the height of medium size.
-    if (frameSize.height > mediumResolutionSize.height)
-    {        
-        director->setContentScaleFactor(MIN(largeResolutionSize.height/designResolutionSize.height, largeResolutionSize.width/designResolutionSize.width));
+    if (frameSize.height > mediumResolutionSize.height) {
+        director->setContentScaleFactor(MIN(largeResolutionSize.height / designResolutionSize.height, largeResolutionSize.width / designResolutionSize.width));
     }
-    // if the frame's height is larger than the height of small size.
-    else if (frameSize.height > smallResolutionSize.height)
-    {        
-        director->setContentScaleFactor(MIN(mediumResolutionSize.height/designResolutionSize.height, mediumResolutionSize.width/designResolutionSize.width));
+        // if the frame's height is larger than the height of small size.
+    else if (frameSize.height > smallResolutionSize.height) {
+        director->setContentScaleFactor(MIN(mediumResolutionSize.height / designResolutionSize.height, mediumResolutionSize.width / designResolutionSize.width));
     }
-    // if the frame's height is smaller than the height of medium size.
-    else
-    {        
-        director->setContentScaleFactor(MIN(smallResolutionSize.height/designResolutionSize.height, smallResolutionSize.width/designResolutionSize.width));
+        // if the frame's height is smaller than the height of medium size.
+    else {
+        director->setContentScaleFactor(MIN(smallResolutionSize.height / designResolutionSize.height, smallResolutionSize.width / designResolutionSize.width));
     }
 
     register_all_packages();
+
+    // Search path by dpi
+
+    const int dpi = cocos2d::Device::getDPI();
+    auto variants = get_dpi_variants("textures");
+    auto closest_dpi = *std::min_element(variants.begin(), variants.end(), [dpi](int a, int b) {
+        return std::abs(a - dpi) < std::abs(b - dpi);
+    });
+    cocos2d::FileUtils::getInstance()->setSearchPaths({"textures/" + std::to_string(closest_dpi)});
 
     // create a scene. it's an autorelease object
     auto scene = fm::MenuScene::create();
