@@ -4,6 +4,8 @@
 
 #pragma once
 
+#include <2d/CCScene.h>
+
 namespace fm {
 
     class MenuScene : public cocos2d::Scene {
