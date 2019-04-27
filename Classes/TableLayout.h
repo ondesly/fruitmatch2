@@ -27,9 +27,9 @@ namespace fm {
 
     private:
 
-        const int m_m;
-        const int m_n;
-        const float m_border;
+        const int mM;
+        const int mN;
+        const float mBorder;
 
     private:
 

@@ -63,7 +63,7 @@ bool fm::GameScene::init() {
 
     rapidjson::Document document;
 
-    auto levels_data = cocos2d::FileUtils::getInstance()->getStringFromFile("levels/level_" + m_level_name + ".json");
+    auto levels_data = cocos2d::FileUtils::getInstance()->getStringFromFile("levels/level_" + mLevelName + ".json");
     document.Parse(levels_data.c_str());
 
     if (document.IsObject()) {
@@ -85,7 +85,7 @@ bool fm::GameScene::init() {
     return true;
 }
 
-fm::GameScene::GameScene(const std::string &level_name) : m_level_name(level_name) {
+fm::GameScene::GameScene(const std::string &level_name) : mLevelName(level_name) {
 
 }
 

@@ -68,25 +68,17 @@ cocos2d::ui::Button *fm::MenuScene::makeButton(const std::string &name) {
     auto button = cocos2d::ui::Button::create("button", "", "", cocos2d::ui::Widget::TextureResType::PLIST);
     button->setScale9Enabled(true);
 
-    auto size = button->getNormalTextureSize();
+    const auto size = button->getNormalTextureSize();
     button->setCapInsets(cocos2d::Rect(size.width * 1.75f, size.height * 1.75f, size.width * 1.75f, size.height * 1.75f));
     button->setZoomScale(-0.1f);
+
+    button->setTitleFontSize(cocos2d::Device::getDPI() * 0.15f);
     button->setTitleText(name);
 
-//    button->setUnifySizeEnabled(true);
-//    button->setContentSize(button->getVirtualRendererSize() + cocos2d::Size(button->getVirtualRendererSize().height / 2, 0.f));
-
     button->addTouchEventListener([name](Ref *sender, cocos2d::ui::Widget::TouchEventType type) {
-        switch (type) {
-            case cocos2d::ui::Widget::TouchEventType::BEGAN:
-                break;
-            case cocos2d::ui::Widget::TouchEventType::ENDED: {
-                auto scene = GameScene::create(name);
-                cocos2d::Director::getInstance()->replaceScene(scene);
-                break;
-            }
-            default:
-                break;
+        if (type == cocos2d::ui::Widget::TouchEventType::ENDED) {
+            auto scene = GameScene::create(name);
+            cocos2d::Director::getInstance()->replaceScene(scene);
         }
     });
 

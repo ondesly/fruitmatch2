@@ -33,7 +33,7 @@ namespace fm {
 
     private:
 
-        const std::string m_level_name;
+        const std::string mLevelName;
 
         cocos2d::Label *mMovesLabel;
         cocos2d::Label *mGoalLabel;

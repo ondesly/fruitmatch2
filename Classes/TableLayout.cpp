@@ -14,7 +14,7 @@ fm::TableLayout *fm::TableLayout::create(const int m, const int n, const float b
     return nullptr;
 }
 
-fm::TableLayout::TableLayout(const int m, const int n, const float border) : m_m(m), m_n(n), m_border(border) {
+fm::TableLayout::TableLayout(const int m, const int n, const float border) : mM(m), mN(n), mBorder(border) {
 
 }
 
@@ -31,15 +31,15 @@ bool fm::TableLayout::init() {
 void fm::TableLayout::layout() {
     auto front = getChildren().front();
     setContentSize(cocos2d::Size(
-            m_m * front->getContentSize().width * (1 + m_border),
-            m_n * front->getContentSize().height * (1 + m_border)));
+            mM * front->getContentSize().width * (1 + mBorder),
+            mN * front->getContentSize().height * (1 + mBorder)));
 
     auto children = getChildren();
     for (auto i = 0; i < children.size(); ++i) {
         auto child = children.at(i);
         child->setPosition(cocos2d::Vec2(
-                ((i % m_m) + 0.5f) * child->getContentSize().width * (1 + m_border),
-                (m_n - ((i / m_m) + 0.5f)) * child->getContentSize().height * (1 + m_border)));
+                ((i % mM) + 0.5f) * child->getContentSize().width * (1 + mBorder),
+                (mN - ((i / mM) + 0.5f)) * child->getContentSize().height * (1 + mBorder)));
     }
 }
 
