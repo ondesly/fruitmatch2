@@ -123,7 +123,7 @@
         <key>dataFormat</key>
         <string>cocos2d</string>
         <key>textureFileName</key>
-        <filename>../Resources/{v}/tex.png</filename>
+        <filename>../Resources/textures/{v}/tex.png</filename>
         <key>flipPVR</key>
         <false/>
         <key>pvrCompressionQuality</key>
@@ -230,7 +230,7 @@
             <key>data</key>
             <struct type="DataFile">
                 <key>name</key>
-                <filename>../Resources/{v}/tex.plist</filename>
+                <filename>../Resources/textures/{v}/tex.plist</filename>
             </struct>
         </map>
         <key>multiPack</key>
