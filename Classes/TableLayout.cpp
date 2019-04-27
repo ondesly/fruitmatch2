@@ -5,7 +5,7 @@
 #include "TableLayout.h"
 
 fm::TableLayout *fm::TableLayout::create(const int m, const int n, const float border) {
-    TableLayout *layout = new(std::nothrow) TableLayout(m, n, border);
+    auto layout = new(std::nothrow) TableLayout(m, n, border);
     if (layout && layout->init()) {
         layout->autorelease();
         return layout;

@@ -25,6 +25,7 @@
 		907053A42273805100ADB1F3 /* logo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 907053A12273805100ADB1F3 /* logo@2x.png */; };
 		907053B822743DDE00ADB1F3 /* textures in Resources */ = {isa = PBXBuildFile; fileRef = 907053B722743DDE00ADB1F3 /* textures */; };
 		B1399404664EDF6E1D6A3C22 /* TableLayout.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B1399ECDFBC3FF2406897395 /* TableLayout.cpp */; };
+		B1399773F1D912DE986DA319 /* GameScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B13995E7A36A8BD140FAE986 /* GameScene.cpp */; };
 		B13997CE4C2CFC547D46C8B8 /* MenuScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B1399BB83D6F7CD7E1642BF9 /* MenuScene.cpp */; };
 		BF171245129291EC00B8313A /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF170DB012928DE900B8313A /* OpenGLES.framework */; };
 		BF1712471292920000B8313A /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = BF170DB412928DE900B8313A /* libz.dylib */; };
@@ -98,6 +99,8 @@
 		907053A12273805100ADB1F3 /* logo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "logo@2x.png"; sourceTree = "<group>"; };
 		907053B722743DDE00ADB1F3 /* textures */ = {isa = PBXFileReference; lastKnownFileType = folder; path = textures; sourceTree = "<group>"; };
 		B13991E93E1FC277809B1417 /* MenuScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuScene.h; sourceTree = "<group>"; };
+		B13994E86F0191B8DBB1C579 /* GameScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameScene.h; sourceTree = "<group>"; };
+		B13995E7A36A8BD140FAE986 /* GameScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameScene.cpp; sourceTree = "<group>"; };
 		B1399BB83D6F7CD7E1642BF9 /* MenuScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MenuScene.cpp; sourceTree = "<group>"; };
 		B1399EC4AFE833217BEA0AA1 /* TableLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TableLayout.h; sourceTree = "<group>"; };
 		B1399ECDFBC3FF2406897395 /* TableLayout.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TableLayout.cpp; sourceTree = "<group>"; };
@@ -233,6 +236,8 @@
 				B13991E93E1FC277809B1417 /* MenuScene.h */,
 				B1399ECDFBC3FF2406897395 /* TableLayout.cpp */,
 				B1399EC4AFE833217BEA0AA1 /* TableLayout.h */,
+				B13995E7A36A8BD140FAE986 /* GameScene.cpp */,
+				B13994E86F0191B8DBB1C579 /* GameScene.h */,
 			);
 			name = Classes;
 			path = ../Classes;
@@ -349,6 +354,7 @@
 				1AF87B8A1F6F7822007BE51C /* main.m in Sources */,
 				B13997CE4C2CFC547D46C8B8 /* MenuScene.cpp in Sources */,
 				B1399404664EDF6E1D6A3C22 /* TableLayout.cpp in Sources */,
+				B1399773F1D912DE986DA319 /* GameScene.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -21,7 +21,7 @@ namespace fm {
     class MenuScene : public cocos2d::Scene {
     public:
 
-        CREATE_FUNC(MenuScene);
+        static MenuScene *create();
 
     public:
 

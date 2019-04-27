@@ -5,9 +5,20 @@
 #include <json/document.h>
 #include <ui/UIButton.h>
 
+#include "GameScene.h"
 #include "TableLayout.h"
 
 #include "MenuScene.h"
+
+fm::MenuScene *fm::MenuScene::create() {
+    auto scene = new(std::nothrow) MenuScene();
+    if (scene && scene->init()) {
+        scene->autorelease();
+        return scene;
+    }
+    CC_SAFE_DELETE(scene);
+    return nullptr;
+}
 
 bool fm::MenuScene::init() {
     if (!cocos2d::Scene::init()) {
@@ -59,19 +70,21 @@ cocos2d::ui::Button *fm::MenuScene::makeButton(const std::string &name) {
 
     auto size = button->getNormalTextureSize();
     button->setCapInsets(cocos2d::Rect(size.width * 1.75f, size.height * 1.75f, size.width * 1.75f, size.height * 1.75f));
-    button->setPosition(cocos2d::Vec2(100, 100));
     button->setZoomScale(-0.1f);
     button->setTitleText(name);
 
 //    button->setUnifySizeEnabled(true);
 //    button->setContentSize(button->getVirtualRendererSize() + cocos2d::Size(button->getVirtualRendererSize().height / 2, 0.f));
 
-    button->addTouchEventListener([&](Ref *sender, cocos2d::ui::Widget::TouchEventType type) {
+    button->addTouchEventListener([name](Ref *sender, cocos2d::ui::Widget::TouchEventType type) {
         switch (type) {
             case cocos2d::ui::Widget::TouchEventType::BEGAN:
                 break;
-            case cocos2d::ui::Widget::TouchEventType::ENDED:
+            case cocos2d::ui::Widget::TouchEventType::ENDED: {
+                auto scene = GameScene::create(name);
+                cocos2d::Director::getInstance()->replaceScene(scene);
                 break;
+            }
             default:
                 break;
         }
