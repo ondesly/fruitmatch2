@@ -110,8 +110,14 @@ bool fm::GameScene::init() {
         mGame->setThings(things);
     }
 
-    // Listeners
+    //
 
+    setListeners();
+
+    return true;
+}
+
+void fm::GameScene::setListeners() {
     mOnScoreChanged = cocos2d::EventListenerCustom::create(GameLayout::SCORE_CHANGED_EVENT_NAME,
             [&](cocos2d::EventCustom *event) {
                 auto score = mGame->getScore();
@@ -126,7 +132,37 @@ bool fm::GameScene::init() {
             });
     _eventDispatcher->addEventListenerWithSceneGraphPriority(mOnMovesChanged, this);
 
-    return true;
+    mOnAction = cocos2d::EventListenerCustom::create(GameLayout::ACTION_EVENT_NAME, [&](cocos2d::EventCustom *event) {
+        auto action = *static_cast<GameLayout::Action *>(event->getUserData());
+        switch (action) {
+            case GameLayout::Action::DONE: {
+                auto score = mGame->getScore();
+                if (score >= mGoal) {
+                    auto dialog = Dialog::create(this, "You won!",
+                            [](Dialog *const dialog) {
+                                auto scene = MenuScene::create();
+                                cocos2d::Director::getInstance()->replaceScene(scene);
+                            });
+                    addChild(dialog);
+                } else {
+                    auto moves = mGame->getMoves();
+                    if (mMoves - moves == 0) {
+                        auto dialog = Dialog::create(this, "You lose!",
+                                [](Dialog *const dialog) {
+                                    auto scene = MenuScene::create();
+                                    cocos2d::Director::getInstance()->replaceScene(scene);
+                                });
+                        addChild(dialog);
+                    }
+                }
+                break;
+            }
+            default:
+                break;
+        }
+
+    });
+    _eventDispatcher->addEventListenerWithSceneGraphPriority(mOnAction, this);
 }
 
 fm::GameScene::GameScene(const std::string &level_name) : mLevelName(level_name) {
@@ -170,4 +206,5 @@ void fm::GameScene::onExit() {
 
     _eventDispatcher->removeEventListener(mOnScoreChanged);
     _eventDispatcher->removeEventListener(mOnMovesChanged);
+    _eventDispatcher->removeEventListener(mOnAction);
 }

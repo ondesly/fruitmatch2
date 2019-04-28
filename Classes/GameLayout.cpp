@@ -9,7 +9,7 @@
 
 #include "GameLayout.h"
 
-const std::string fm::GameLayout::NEXT_ACTION_EVENT_NAME = "game_layout_action_complete";
+const std::string fm::GameLayout::ACTION_EVENT_NAME = "game_layout_action_complete";
 const std::string fm::GameLayout::SCORE_CHANGED_EVENT_NAME = "score_changed_action_complete";
 const std::string fm::GameLayout::MOVES_CHANGED_EVENT_NAME = "moves_changed_action_complete";
 
@@ -28,7 +28,7 @@ bool fm::GameLayout::init() {
         return false;
     }
 
-    mOnActionComplete = cocos2d::EventListenerCustom::create(NEXT_ACTION_EVENT_NAME, [&](cocos2d::EventCustom *event) {
+    mOnAction = cocos2d::EventListenerCustom::create(ACTION_EVENT_NAME, [&](cocos2d::EventCustom *event) {
         auto action = *static_cast<Action *>(event->getUserData());
         switch (action) {
             case Action::MATCH:
@@ -47,7 +47,7 @@ bool fm::GameLayout::init() {
         }
 
     });
-    _eventDispatcher->addEventListenerWithSceneGraphPriority(mOnActionComplete, this);
+    _eventDispatcher->addEventListenerWithSceneGraphPriority(mOnAction, this);
 
     return true;
 }
@@ -195,7 +195,7 @@ void fm::GameLayout::swap(const size_t indexFrom, const size_t indexTo) {
     cellTo->setThingNode(thingNodeFrom);
     thingNodeFrom->moveToDefaultPosition([&]() {
         Action action(Action::MATCH);
-        _eventDispatcher->dispatchCustomEvent(NEXT_ACTION_EVENT_NAME, &action);
+        _eventDispatcher->dispatchCustomEvent(ACTION_EVENT_NAME, &action);
     });
 }
 
@@ -232,7 +232,7 @@ void fm::GameLayout::match() {
 
     std::function<void()> onComplete = [&]() {
         Action action(Action::FALL);
-        _eventDispatcher->dispatchCustomEvent(NEXT_ACTION_EVENT_NAME, &action);
+        _eventDispatcher->dispatchCustomEvent(ACTION_EVENT_NAME, &action);
     };
 
     //
@@ -314,7 +314,7 @@ size_t fm::GameLayout::getFallAvailableIndex(const size_t index) const {
 void fm::GameLayout::fall() {
     std::function<void()> onComplete = [&]() {
         Action action(Action::MATCH);
-        _eventDispatcher->dispatchCustomEvent(NEXT_ACTION_EVENT_NAME, &action);
+        _eventDispatcher->dispatchCustomEvent(ACTION_EVENT_NAME, &action);
     };
 
     //
@@ -341,14 +341,14 @@ void fm::GameLayout::fall() {
 
     if (onComplete) {
         Action action(Action::SPAWN);
-        _eventDispatcher->dispatchCustomEvent(NEXT_ACTION_EVENT_NAME, &action);
+        _eventDispatcher->dispatchCustomEvent(ACTION_EVENT_NAME, &action);
     }
 }
 
 void fm::GameLayout::spawn() {
     std::function<void()> onComplete = [&]() {
         Action action(Action::DONE);
-        _eventDispatcher->dispatchCustomEvent(NEXT_ACTION_EVENT_NAME, &action);
+        _eventDispatcher->dispatchCustomEvent(ACTION_EVENT_NAME, &action);
     };
 
     //
@@ -391,5 +391,5 @@ size_t fm::GameLayout::getMoves() const {
 void fm::GameLayout::onExit() {
     Node::onExit();
 
-    _eventDispatcher->removeEventListener(mOnActionComplete);
+    _eventDispatcher->removeEventListener(mOnAction);
 }

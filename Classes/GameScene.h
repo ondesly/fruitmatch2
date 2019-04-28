@@ -51,6 +51,7 @@ namespace fm {
 
         cocos2d::EventListenerCustom *mOnScoreChanged;
         cocos2d::EventListenerCustom *mOnMovesChanged;
+        cocos2d::EventListenerCustom *mOnAction;
 
     private:
 
@@ -59,6 +60,8 @@ namespace fm {
     private:
 
         cocos2d::ui::Button *makeBackButton();
+
+        void setListeners();
 
     };
 

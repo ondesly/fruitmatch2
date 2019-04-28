@@ -23,7 +23,16 @@ namespace fm {
     class GameLayout : public TableLayout {
     public:
 
-        static const std::string NEXT_ACTION_EVENT_NAME;
+        enum class Action {
+            MATCH,
+            FALL,
+            SPAWN,
+            DONE
+        };
+
+    public:
+
+        static const std::string ACTION_EVENT_NAME;
         static const std::string SCORE_CHANGED_EVENT_NAME;
         static const std::string MOVES_CHANGED_EVENT_NAME;
 
@@ -58,16 +67,7 @@ namespace fm {
         size_t mScore = 0;
         size_t mMoves = 0;
 
-        cocos2d::EventListenerCustom *mOnActionComplete;
-
-    private:
-
-        enum class Action {
-            MATCH,
-            FALL,
-            SPAWN,
-            DONE
-        };
+        cocos2d::EventListenerCustom *mOnAction;
 
     private:
 
