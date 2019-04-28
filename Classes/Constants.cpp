@@ -5,5 +5,6 @@
 #include "Constants.h"
 
 const cocos2d::Color3B fm::Constants::BG_COLOR = cocos2d::Color3B(240, 240, 240);
+const cocos2d::Color3B fm::Constants::BLACKOUT_COLOR = cocos2d::Color3B(0, 0, 0);
 
 const float fm::Constants::ANIMATION_DURATION = 0.2f;

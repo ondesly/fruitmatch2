@@ -26,6 +26,7 @@
 		907053B822743DDE00ADB1F3 /* textures in Resources */ = {isa = PBXBuildFile; fileRef = 907053B722743DDE00ADB1F3 /* textures */; };
 		B13991CEF2457CF6F248285B /* GameLayout.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B1399EE8C3F9253B12451BF1 /* GameLayout.cpp */; };
 		B1399404664EDF6E1D6A3C22 /* TableLayout.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B1399ECDFBC3FF2406897395 /* TableLayout.cpp */; };
+		B139941C8E12981E70CFF40F /* Dialog.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B13990EB562942B16FD97646 /* Dialog.cpp */; };
 		B13996755F7060D7195B4D1C /* ThingNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B1399281FA68DC2543FF7DFD /* ThingNode.cpp */; };
 		B1399773F1D912DE986DA319 /* GameScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B13995E7A36A8BD140FAE986 /* GameScene.cpp */; };
 		B13997CE4C2CFC547D46C8B8 /* MenuScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B1399BB83D6F7CD7E1642BF9 /* MenuScene.cpp */; };
@@ -102,6 +103,7 @@
 		907053A02273805100ADB1F3 /* logo@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "logo@3x.png"; sourceTree = "<group>"; };
 		907053A12273805100ADB1F3 /* logo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "logo@2x.png"; sourceTree = "<group>"; };
 		907053B722743DDE00ADB1F3 /* textures */ = {isa = PBXFileReference; lastKnownFileType = folder; path = textures; sourceTree = "<group>"; };
+		B13990EB562942B16FD97646 /* Dialog.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Dialog.cpp; sourceTree = "<group>"; };
 		B13991E93E1FC277809B1417 /* MenuScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuScene.h; sourceTree = "<group>"; };
 		B1399239CD7718FFBCBDA42C /* GameLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameLayout.h; sourceTree = "<group>"; };
 		B1399281FA68DC2543FF7DFD /* ThingNode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ThingNode.cpp; sourceTree = "<group>"; };
@@ -117,6 +119,7 @@
 		B1399ECDFBC3FF2406897395 /* TableLayout.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TableLayout.cpp; sourceTree = "<group>"; };
 		B1399EE8C3F9253B12451BF1 /* GameLayout.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameLayout.cpp; sourceTree = "<group>"; };
 		B1399F8809C27DBD7131776D /* Constants.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Constants.cpp; sourceTree = "<group>"; };
+		B1399FF9BA5087D238B5C42B /* Dialog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Dialog.h; sourceTree = "<group>"; };
 		BF170DB012928DE900B8313A /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		BF170DB412928DE900B8313A /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		BF1C47EA1293683800B63C5D /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
@@ -260,6 +263,8 @@
 				B13993067F5C83D6F9BF2328 /* ThingNode.h */,
 				B1399F8809C27DBD7131776D /* Constants.cpp */,
 				B1399A32EE9A24B3D794D2B6 /* Constants.h */,
+				B13990EB562942B16FD97646 /* Dialog.cpp */,
+				B1399FF9BA5087D238B5C42B /* Dialog.h */,
 			);
 			name = Classes;
 			path = ../Classes;
@@ -381,6 +386,7 @@
 				B13991CEF2457CF6F248285B /* GameLayout.cpp in Sources */,
 				B13996755F7060D7195B4D1C /* ThingNode.cpp in Sources */,
 				B1399DD10010C2DA21B8E046 /* Constants.cpp in Sources */,
+				B139941C8E12981E70CFF40F /* Dialog.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -11,6 +11,7 @@
 #include <ui/UIWidget.h>
 
 #include "Constants.h"
+#include "Dialog.h"
 #include "GameLayout.h"
 #include "MenuScene.h"
 #include "Thing.h"
@@ -87,7 +88,7 @@ bool fm::GameScene::init() {
         mGame->setPosition(getContentSize() / 2);
         mGame->setContentSize(cocos2d::Size(
                 getContentSize().width - backButton->getContentSize().width * 3,
-                getContentSize().height - mMovesLabel->getContentSize().height * 3));
+                getContentSize().height * 0.9f));
         addChild(mGame);
 
         //
@@ -146,17 +147,18 @@ cocos2d::ui::Button *fm::GameScene::makeBackButton() {
     button->setUnifySizeEnabled(true);
     button->setContentSize(button->getVirtualRendererSize() + cocos2d::Size(button->getVirtualRendererSize().height * 0.75f, 0.f));
 
-    button->addTouchEventListener([](Ref *sender, cocos2d::ui::Widget::TouchEventType type) {
-        switch (type) {
-            case cocos2d::ui::Widget::TouchEventType::BEGAN:
-                break;
-            case cocos2d::ui::Widget::TouchEventType::ENDED: {
-                auto scene = MenuScene::create();
-                cocos2d::Director::getInstance()->replaceScene(scene);
-                break;
-            }
-            default:
-                break;
+    button->addTouchEventListener([&](Ref *sender, cocos2d::ui::Widget::TouchEventType type) {
+        if (type == cocos2d::ui::Widget::TouchEventType::ENDED) {
+            auto dialog = Dialog::create(this, "Are you sure?",
+                    [](Dialog *const dialog) {
+                        auto scene = MenuScene::create();
+                        cocos2d::Director::getInstance()->replaceScene(scene);
+                    },
+                    [](Dialog *const dialog) {
+                        dialog->removeFromParent();
+                    });
+            addChild(dialog);
+
         }
     });
 
