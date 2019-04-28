@@ -4,6 +4,7 @@
 
 #include <unordered_map>
 
+#include <base/CCEventListenerCustom.h>
 #include <json/document.h>
 #include <ui/UIButton.h>
 #include <ui/UIImageView.h>
@@ -44,23 +45,25 @@ bool fm::GameScene::init() {
             getContentSize().height - backButton->getContentSize().height / 2));
     addChild(backButton);
 
+    // Labels
+
+    mScoreLabel = cocos2d::Label::create();
+    mScoreLabel->setSystemFontSize(cocos2d::Device::getDPI() * 0.15f);
+    mScoreLabel->setColor(cocos2d::Color3B(0, 191, 124));
+    mScoreLabel->setString("Goal: 0/10");
+    mScoreLabel->setPosition(cocos2d::Vec2(
+            getContentSize().width - mScoreLabel->getContentSize().width / 2,
+            getContentSize().height - mScoreLabel->getContentSize().height / 2));
+    addChild(mScoreLabel);
+
     mMovesLabel = cocos2d::Label::create();
     mMovesLabel->setSystemFontSize(cocos2d::Device::getDPI() * 0.15f);
     mMovesLabel->setColor(cocos2d::Color3B(0, 191, 124));
-    mMovesLabel->setString("Moves left: 5");
+    mMovesLabel->setString("Moves: 0");
     mMovesLabel->setPosition(cocos2d::Vec2(
             getContentSize().width / 2,
             getContentSize().height - mMovesLabel->getContentSize().height / 2));
     addChild(mMovesLabel);
-
-    mGoalLabel = cocos2d::Label::create();
-    mGoalLabel->setSystemFontSize(cocos2d::Device::getDPI() * 0.15f);
-    mGoalLabel->setColor(cocos2d::Color3B(0, 191, 124));
-    mGoalLabel->setString("Goal: 5/10");
-    mGoalLabel->setPosition(cocos2d::Vec2(
-            getContentSize().width - mGoalLabel->getContentSize().width / 2,
-            getContentSize().height - mGoalLabel->getContentSize().height / 2));
-    addChild(mGoalLabel);
 
     //
 
@@ -73,19 +76,19 @@ bool fm::GameScene::init() {
         auto width = document["width"].GetInt();
         auto field = document["field"].GetArray();
 
-        auto game = GameLayout::create(width, field.Size() / width, 0.1f);
-        game->setPosition(getContentSize() / 2);
-        game->setContentSize(cocos2d::Size(
+        mGame = GameLayout::create(width, field.Size() / width, 0.1f);
+        mGame->setPosition(getContentSize() / 2);
+        mGame->setContentSize(cocos2d::Size(
                 getContentSize().width - backButton->getContentSize().width * 3,
                 getContentSize().height - mMovesLabel->getContentSize().height * 3));
-        addChild(game);
+        addChild(mGame);
 
         //
 
         for (auto it = field.Begin(); it != field.End(); ++it) {
-            game->addCell(it->GetInt() == 1);
+            mGame->addCell(it->GetInt() == 1);
         }
-        game->layout();
+        mGame->layout();
 
         //
 
@@ -96,8 +99,22 @@ bool fm::GameScene::init() {
             auto color = it->value.GetString();
             things.push_back({name, color});
         }
-        game->setThings(things);
+        mGame->setThings(things);
     }
+
+    // Listeners
+
+    mOnScoreChanged = cocos2d::EventListenerCustom::create("score_changed", [&](cocos2d::EventCustom *event) {
+        auto score = mGame->getScore();
+        mScoreLabel->setString("Goal: " + std::to_string(score) + "/10");
+    });
+    _eventDispatcher->addEventListenerWithSceneGraphPriority(mOnScoreChanged, this);
+
+    mOnMovesChanged = cocos2d::EventListenerCustom::create("moves_changed", [&](cocos2d::EventCustom *event) {
+        auto moves = mGame->getMoves();
+        mMovesLabel->setString("Moves: " + std::to_string(moves));
+    });
+    _eventDispatcher->addEventListenerWithSceneGraphPriority(mOnMovesChanged, this);
 
     return true;
 }
@@ -135,4 +152,11 @@ cocos2d::ui::Button *fm::GameScene::makeBackButton() {
     });
 
     return button;
+}
+
+void fm::GameScene::onExit() {
+    Node::onExit();
+
+    _eventDispatcher->removeEventListener(mOnScoreChanged);
+    _eventDispatcher->removeEventListener(mOnMovesChanged);
 }

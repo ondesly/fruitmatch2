@@ -156,6 +156,10 @@ void fm::GameLayout::swap(const size_t indexFrom, const size_t indexTo) {
     auto cellTo = mCells[indexTo];
     cellFrom->setThing(cellTo->getThing());
     cellTo->setThing(thingFrom);
+
+    ++mMoves;
+
+    _eventDispatcher->dispatchCustomEvent("moves_changed");
 }
 
 void fm::GameLayout::checkMatch() {
@@ -183,4 +187,16 @@ void fm::GameLayout::checkMatch() {
         auto cell = mCells[index];
         cell->setThing({});
     }
+
+    mScore += indexes.size();
+
+    _eventDispatcher->dispatchCustomEvent("score_changed");
+}
+
+size_t fm::GameLayout::getScore() const {
+    return mScore;
+}
+
+size_t fm::GameLayout::getMoves() const {
+    return mMoves;
 }

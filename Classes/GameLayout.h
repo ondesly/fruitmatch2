@@ -27,6 +27,10 @@ namespace fm {
 
         void setThings(const std::vector<Thing> &things);
 
+        size_t getScore() const;
+
+        size_t getMoves() const;
+
     private:
 
         cocos2d::Size mCellSize = cocos2d::Size::ZERO;
@@ -36,6 +40,9 @@ namespace fm {
 
         std::vector<int> mOffset;
         std::uniform_int_distribution<size_t> mDistribution;
+
+        size_t mScore = 0;
+        size_t mMoves = 0;
 
     private:
 
