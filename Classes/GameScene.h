@@ -46,6 +46,9 @@ namespace fm {
         cocos2d::Label *mMovesLabel;
         cocos2d::Label *mScoreLabel;
 
+        size_t mGoal = 0;
+        size_t mMoves = 0;
+
         cocos2d::EventListenerCustom *mOnScoreChanged;
         cocos2d::EventListenerCustom *mOnMovesChanged;
 

@@ -10,6 +10,7 @@
 #include <ui/UIImageView.h>
 #include <ui/UIWidget.h>
 
+#include "Constants.h"
 #include "GameLayout.h"
 #include "MenuScene.h"
 #include "Thing.h"
@@ -34,7 +35,7 @@ bool fm::GameScene::init() {
     //
 
     auto bg = cocos2d::Sprite::create();
-    bg->setColor(cocos2d::Color3B(230, 230, 230));
+    bg->setColor(Constants::BG_COLOR);
     bg->setAnchorPoint(cocos2d::Vec2::ZERO);
     bg->setTextureRect(cocos2d::Rect(cocos2d::Vec2::ZERO, getContentSize()));
     addChild(bg);
@@ -50,19 +51,19 @@ bool fm::GameScene::init() {
     mScoreLabel = cocos2d::Label::create();
     mScoreLabel->setSystemFontSize(cocos2d::Device::getDPI() * 0.15f);
     mScoreLabel->setColor(cocos2d::Color3B(0, 191, 124));
-    mScoreLabel->setString("Goal: 0/10");
+    mScoreLabel->setString("Goal");
     mScoreLabel->setPosition(cocos2d::Vec2(
-            getContentSize().width - mScoreLabel->getContentSize().width / 2,
-            getContentSize().height - mScoreLabel->getContentSize().height / 2));
+            getContentSize().width - mScoreLabel->getContentSize().width,
+            getContentSize().height - mScoreLabel->getContentSize().height));
     addChild(mScoreLabel);
 
     mMovesLabel = cocos2d::Label::create();
     mMovesLabel->setSystemFontSize(cocos2d::Device::getDPI() * 0.15f);
     mMovesLabel->setColor(cocos2d::Color3B(0, 191, 124));
-    mMovesLabel->setString("Moves: 0");
+    mMovesLabel->setString("Moves");
     mMovesLabel->setPosition(cocos2d::Vec2(
-            getContentSize().width / 2,
-            getContentSize().height - mMovesLabel->getContentSize().height / 2));
+            getContentSize().width - mMovesLabel->getContentSize().width,
+            mMovesLabel->getContentSize().height));
     addChild(mMovesLabel);
 
     //
@@ -73,6 +74,12 @@ bool fm::GameScene::init() {
     document.Parse(levels_data.c_str());
 
     if (document.IsObject()) {
+        mGoal = document["goal"].GetUint();
+        mScoreLabel->setString("Goal: 0/" + std::to_string(mGoal));
+
+        mMoves = document["moves"].GetUint();
+        mMovesLabel->setString("Moves: " + std::to_string(mMoves));
+
         auto width = document["width"].GetInt();
         auto field = document["field"].GetArray();
 
@@ -107,14 +114,14 @@ bool fm::GameScene::init() {
     mOnScoreChanged = cocos2d::EventListenerCustom::create(GameLayout::SCORE_CHANGED_EVENT_NAME,
             [&](cocos2d::EventCustom *event) {
                 auto score = mGame->getScore();
-                mScoreLabel->setString("Goal: " + std::to_string(score) + "/10");
+                mScoreLabel->setString("Goal: " + std::to_string(score) + "/" + std::to_string(mGoal));
             });
     _eventDispatcher->addEventListenerWithSceneGraphPriority(mOnScoreChanged, this);
 
     mOnMovesChanged = cocos2d::EventListenerCustom::create(GameLayout::MOVES_CHANGED_EVENT_NAME,
             [&](cocos2d::EventCustom *event) {
                 auto moves = mGame->getMoves();
-                mMovesLabel->setString("Moves: " + std::to_string(moves));
+                mMovesLabel->setString("Moves: " + std::to_string(mMoves - moves));
             });
     _eventDispatcher->addEventListenerWithSceneGraphPriority(mOnMovesChanged, this);
 
