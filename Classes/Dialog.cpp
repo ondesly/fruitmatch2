@@ -3,6 +3,7 @@
 //
 
 #include <ui/UIButton.h>
+#include <ui/UIWidget.h>
 
 #include "Constants.h"
 
@@ -28,16 +29,31 @@ bool fm::Dialog::init(cocos2d::Node *const parent, const std::string &text, cons
     setAnchorPoint(cocos2d::Vec2::ANCHOR_BOTTOM_LEFT);
     setContentSize(parent->getContentSize());
 
-    //
+    // Blackout
 
-    auto blackout = cocos2d::Sprite::create();
-    blackout->setOpacity(150);
-    blackout->setColor(Constants::BLACKOUT_COLOR);
-    blackout->setAnchorPoint(cocos2d::Vec2::ZERO);
-    blackout->setTextureRect(cocos2d::Rect(cocos2d::Vec2::ZERO, getContentSize()));
+    auto blackout = cocos2d::ui::Widget::create();
+    blackout->setContentSize(getContentSize());
+    blackout->setPosition(getContentSize() / 2);
+    blackout->setTouchEnabled(true);
+    blackout->addTouchEventListener([&, onOk, onCancel](Ref *sender, cocos2d::ui::Widget::TouchEventType type) {
+        if (type == cocos2d::ui::Widget::TouchEventType::ENDED) {
+            if (onCancel) {
+                onCancel(this);
+            } else {
+                onOk(this);
+            }
+        }
+    });
     addChild(blackout);
 
-    //
+    auto blackoutBg = cocos2d::Sprite::create();
+    blackoutBg->setOpacity(150);
+    blackoutBg->setColor(Constants::BLACKOUT_COLOR);
+    blackoutBg->setAnchorPoint(cocos2d::Vec2::ZERO);
+    blackoutBg->setTextureRect(cocos2d::Rect(cocos2d::Vec2::ZERO, blackout->getContentSize()));
+    blackout->addChild(blackoutBg);
+
+    // Back
 
     auto back = cocos2d::Sprite::create();
     back->setPosition(getContentSize() / 2);
