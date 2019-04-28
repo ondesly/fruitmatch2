@@ -9,7 +9,7 @@
 
 #include "GameLayout.h"
 
-const std::string fm::GameLayout::ACTION_COMPLETE_EVENT_NAME = "game_layout_action_complete";
+const std::string fm::GameLayout::NEXT_ACTION_EVENT_NAME = "game_layout_action_complete";
 const std::string fm::GameLayout::SCORE_CHANGED_EVENT_NAME = "score_changed_action_complete";
 const std::string fm::GameLayout::MOVES_CHANGED_EVENT_NAME = "moves_changed_action_complete";
 
@@ -28,19 +28,19 @@ bool fm::GameLayout::init() {
         return false;
     }
 
-    mOnActionComplete = cocos2d::EventListenerCustom::create(ACTION_COMPLETE_EVENT_NAME, [&](cocos2d::EventCustom *event) {
+    mOnActionComplete = cocos2d::EventListenerCustom::create(NEXT_ACTION_EVENT_NAME, [&](cocos2d::EventCustom *event) {
         auto action = *static_cast<Action *>(event->getUserData());
         switch (action) {
-            case Action::SWAP:
+            case Action::MATCH:
                 match();
                 break;
-            case Action::MATCH:
+            case Action::FALL:
                 fall();
                 break;
-            case Action::FALL:
+            case Action::SPAWN:
                 spawn();
                 break;
-            case Action::SPAWN:
+            case Action::DONE:
                 bool value = true;
                 _eventDispatcher->dispatchCustomEvent(ThingNode::TOUCH_ENABLED_EVENT_NAME, &value);
                 break;
@@ -194,8 +194,8 @@ void fm::GameLayout::swap(const size_t indexFrom, const size_t indexTo) {
 
     cellTo->setThingNode(thingNodeFrom);
     thingNodeFrom->moveToDefaultPosition([&]() {
-        Action action(Action::SWAP);
-        _eventDispatcher->dispatchCustomEvent(ACTION_COMPLETE_EVENT_NAME, &action);
+        Action action(Action::MATCH);
+        _eventDispatcher->dispatchCustomEvent(NEXT_ACTION_EVENT_NAME, &action);
     });
 }
 
@@ -228,28 +228,32 @@ void fm::GameLayout::match() {
         }
     }
 
+    //
+
+    std::function<void()> onComplete = [&]() {
+        Action action(Action::FALL);
+        _eventDispatcher->dispatchCustomEvent(NEXT_ACTION_EVENT_NAME, &action);
+    };
+
+    //
+
     for (auto index : indexes) {
         auto cell = mCells[index];
 
         auto thingNode = cell->getThingNode();
-        if (index == indexes.front()) {
-            thingNode->remove([&]() {
-                Action action(Action::MATCH);
-                _eventDispatcher->dispatchCustomEvent(ACTION_COMPLETE_EVENT_NAME, &action);
-            });
-        } else {
-            thingNode->remove();
-        }
+        thingNode->remove(onComplete);
+        onComplete = nullptr;
 
         cell->setThingNode(nullptr);
     }
 
-    if (indexes.empty()) {
-        Action action(Action::MATCH);
-        _eventDispatcher->dispatchCustomEvent(ACTION_COMPLETE_EVENT_NAME, &action);
-    } else {
-        mScore += indexes.size();
-        _eventDispatcher->dispatchCustomEvent(SCORE_CHANGED_EVENT_NAME);
+    mScore += indexes.size();
+    _eventDispatcher->dispatchCustomEvent(SCORE_CHANGED_EVENT_NAME);
+
+    //
+
+    if (onComplete) {
+        onComplete();
     }
 }
 
@@ -308,6 +312,13 @@ size_t fm::GameLayout::getFallAvailableIndex(const size_t index) const {
 }
 
 void fm::GameLayout::fall() {
+    std::function<void()> onComplete = [&]() {
+        Action action(Action::MATCH);
+        _eventDispatcher->dispatchCustomEvent(NEXT_ACTION_EVENT_NAME, &action);
+    };
+
+    //
+
     for (size_t i = 0; i < mCells.size(); ++i) {
         auto index = mCells.size() - 1 - i;
         auto cell = mCells[index];
@@ -318,19 +329,55 @@ void fm::GameLayout::fall() {
                 auto available = mCells[available_index];
 
                 cell->setThingNode(available->getThingNode());
-                cell->getThingNode()->moveToDefaultPosition();
+                cell->getThingNode()->moveToDefaultPosition(onComplete);
+                onComplete = nullptr;
+
                 available->setThingNode(nullptr);
             }
         }
     }
 
-    Action action(Action::FALL);
-    _eventDispatcher->dispatchCustomEvent(ACTION_COMPLETE_EVENT_NAME, &action);
+    //
+
+    if (onComplete) {
+        Action action(Action::SPAWN);
+        _eventDispatcher->dispatchCustomEvent(NEXT_ACTION_EVENT_NAME, &action);
+    }
 }
 
 void fm::GameLayout::spawn() {
-    Action action(Action::SPAWN);
-    _eventDispatcher->dispatchCustomEvent(ACTION_COMPLETE_EVENT_NAME, &action);
+    std::function<void()> onComplete = [&]() {
+        Action action(Action::DONE);
+        _eventDispatcher->dispatchCustomEvent(NEXT_ACTION_EVENT_NAME, &action);
+    };
+
+    //
+
+    for (auto cell : mCells) {
+        if (!cell->isVisible() || cell->getThingNode()) {
+            continue;
+        }
+
+        Thing thing;
+        do {
+            thing = getRandomThing();
+        } while (!isUniqueThing(cell->getIndex(), thing));
+
+        auto thingNode = ThingNode::create(thing);
+        thingNode->setPosition(cell->getPosition());
+        addChild(thingNode);
+
+        cell->setThingNode(thingNode);
+
+        thingNode->show(onComplete);
+        onComplete = nullptr;
+    }
+
+    //
+
+    if (onComplete) {
+        onComplete();
+    }
 }
 
 size_t fm::GameLayout::getScore() const {

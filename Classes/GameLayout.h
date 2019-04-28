@@ -23,7 +23,7 @@ namespace fm {
     class GameLayout : public TableLayout {
     public:
 
-        static const std::string ACTION_COMPLETE_EVENT_NAME;
+        static const std::string NEXT_ACTION_EVENT_NAME;
         static const std::string SCORE_CHANGED_EVENT_NAME;
         static const std::string MOVES_CHANGED_EVENT_NAME;
 
@@ -63,10 +63,10 @@ namespace fm {
     private:
 
         enum class Action {
-            SWAP,
             MATCH,
             FALL,
-            SPAWN
+            SPAWN,
+            DONE
         };
 
     private:

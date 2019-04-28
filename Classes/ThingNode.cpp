@@ -121,12 +121,20 @@ void fm::ThingNode::remove(const std::function<void()> &onComplete) {
     stopAllActions();
     runAction(cocos2d::Sequence::create(
             cocos2d::ScaleTo::create(0.2f, 0.01),
-            cocos2d::CallFunc::create([&, onComplete]() {
-                if (onComplete) {
-                    onComplete();
-                }
+            cocos2d::CallFunc::create(onComplete),
+            cocos2d::CallFunc::create([&]() {
                 removeFromParent();
             }),
             nullptr
     ));
+}
+
+void fm::ThingNode::show(const std::function<void()> &onComplete) {
+    stopAllActions();
+    runAction(cocos2d::Sequence::create(
+            cocos2d::ScaleTo::create(0.2f, getScale()),
+            cocos2d::CallFunc::create(onComplete),
+            nullptr
+    ));
+    setScale(0.01f);
 }

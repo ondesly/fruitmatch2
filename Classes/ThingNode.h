@@ -43,6 +43,8 @@ namespace fm {
 
         void remove(const std::function<void()> &onComplete = nullptr);
 
+        void show(const std::function<void()> &onComplete = nullptr);
+
     private:
 
         const Thing mThing;
