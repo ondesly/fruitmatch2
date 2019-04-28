@@ -6,6 +6,8 @@
 
 #include "CellNode.h"
 
+const float fm::CellNode::THING_SIZE_RATIO = 0.75f;
+
 fm::CellNode *fm::CellNode::create(const size_t index, const cocos2d::Size &size, const std::function<void(size_t, Direction)> &onHit) {
     auto node = new(std::nothrow) CellNode(index, onHit);
     if (node && node->init(size)) {
@@ -49,7 +51,7 @@ void fm::CellNode::setThingNode(ThingNode *const thingNode) {
     }
 
     mThingNode->setOnPositionChanged(std::bind(&CellNode::onThingNodePositionChanged, this, std::placeholders::_1));
-    mThingNode->setScale(getContentSize().width / mThingNode->getContentSize().width * 0.75f);
+    mThingNode->setScale(getContentSize().width / mThingNode->getContentSize().width * THING_SIZE_RATIO);
     mThingNode->setDefaultPosition(getPosition());
 }
 

@@ -47,6 +47,10 @@ namespace fm {
 
     private:
 
+        static const float DISAPPEARANCE_SCALE;
+
+    private:
+
         const Thing mThing;
 
         std::function<void(ThingNode *)> mOnPositionChanged;

@@ -5,6 +5,7 @@
 #include <json/document.h>
 #include <ui/UIButton.h>
 
+#include "Constants.h"
 #include "GameScene.h"
 #include "TableLayout.h"
 
@@ -32,6 +33,7 @@ bool fm::MenuScene::init() {
     //
 
     auto bg = cocos2d::Sprite::create();
+    bg->setColor(Constants::BG_COLOR);
     bg->setAnchorPoint(cocos2d::Vec2::ZERO);
     bg->setTextureRect(cocos2d::Rect(cocos2d::Vec2::ZERO, getContentSize()));
     addChild(bg);

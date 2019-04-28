@@ -43,6 +43,10 @@ namespace fm {
 
     private:
 
+        static const float THING_SIZE_RATIO;
+
+    private:
+
         const size_t mIndex;
         const std::function<void(size_t, Direction)> mOnHit;
 

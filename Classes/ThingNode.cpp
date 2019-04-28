@@ -6,7 +6,11 @@
 #include "2d/CCActionInstant.h"
 #include <base/CCEventListenerTouch.h>
 
+#include "Constants.h"
+
 #include "ThingNode.h"
+
+const float fm::ThingNode::DISAPPEARANCE_SCALE = 0.01f;
 
 const std::string fm::ThingNode::TOUCH_ENABLED_EVENT_NAME = "thing_node_touch_enabled";
 
@@ -111,7 +115,7 @@ const fm::Thing &fm::ThingNode::getThing() const {
 void fm::ThingNode::moveToDefaultPosition(const std::function<void()> &onComplete) {
     stopAllActions();
     runAction(cocos2d::Sequence::create(
-            cocos2d::MoveTo::create(0.2f, mDefaultPosition),
+            cocos2d::MoveTo::create(Constants::ANIMATION_DURATION, mDefaultPosition),
             cocos2d::CallFunc::create(onComplete),
             nullptr
     ));
@@ -120,7 +124,7 @@ void fm::ThingNode::moveToDefaultPosition(const std::function<void()> &onComplet
 void fm::ThingNode::remove(const std::function<void()> &onComplete) {
     stopAllActions();
     runAction(cocos2d::Sequence::create(
-            cocos2d::ScaleTo::create(0.2f, 0.01),
+            cocos2d::ScaleTo::create(Constants::ANIMATION_DURATION, DISAPPEARANCE_SCALE),
             cocos2d::CallFunc::create(onComplete),
             cocos2d::CallFunc::create([&]() {
                 removeFromParent();
@@ -132,9 +136,9 @@ void fm::ThingNode::remove(const std::function<void()> &onComplete) {
 void fm::ThingNode::show(const std::function<void()> &onComplete) {
     stopAllActions();
     runAction(cocos2d::Sequence::create(
-            cocos2d::ScaleTo::create(0.2f, getScale()),
+            cocos2d::ScaleTo::create(Constants::ANIMATION_DURATION, getScale()),
             cocos2d::CallFunc::create(onComplete),
             nullptr
     ));
-    setScale(0.01f);
+    setScale(DISAPPEARANCE_SCALE);
 }
