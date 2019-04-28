@@ -35,6 +35,9 @@ namespace fm {
         std::vector<CellNode *> mCells;
         std::vector<Thing> mThings;
 
+        std::vector<int> mOffset;
+        std::uniform_int_distribution<size_t> mDistribution;
+
     private:
 
         GameLayout(int m, int n, float border);
@@ -42,6 +45,8 @@ namespace fm {
     private:
 
         const fm::Thing &getRandomThing();
+
+        bool isUniqueThing(size_t index, const Thing &thing);
 
     };
 

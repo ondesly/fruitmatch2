@@ -13,6 +13,10 @@ namespace fm {
         std::string name;
         std::string color;
 
+        bool operator==(const Thing &thing) const {
+            return name == thing.name && color == thing.color;
+        }
+
     };
 
 }

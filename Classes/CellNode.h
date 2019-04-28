@@ -13,11 +13,13 @@ namespace fm {
     class CellNode : public cocos2d::Node {
     public:
 
-        static CellNode *create(const cocos2d::Size &size);
+        static CellNode *create(size_t index, const cocos2d::Size &size);
 
     public:
 
         bool init(const cocos2d::Size &size);
+
+        size_t getIndex() const;
 
         void setThing(const Thing &thing);
 
@@ -25,7 +27,13 @@ namespace fm {
 
     private:
 
+        const size_t mIndex;
+
         Thing mThing;
+
+    private:
+
+        CellNode(size_t index);
 
     };
 

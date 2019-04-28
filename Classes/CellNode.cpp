@@ -4,14 +4,18 @@
 
 #include "CellNode.h"
 
-fm::CellNode *fm::CellNode::create(const cocos2d::Size &size) {
-    auto cell = new(std::nothrow) CellNode();
+fm::CellNode *fm::CellNode::create(const size_t index, const cocos2d::Size &size) {
+    auto cell = new(std::nothrow) CellNode(index);
     if (cell && cell->init(size)) {
         cell->autorelease();
         return cell;
     }
     CC_SAFE_DELETE(cell);
     return nullptr;
+}
+
+fm::CellNode::CellNode(const size_t index) : mIndex(index) {
+
 }
 
 bool fm::CellNode::init(const cocos2d::Size &size) {
@@ -28,6 +32,10 @@ bool fm::CellNode::init(const cocos2d::Size &size) {
     addChild(bg);
 
     return true;
+}
+
+size_t fm::CellNode::getIndex() const {
+    return mIndex;
 }
 
 void fm::CellNode::setThing(const Thing &thing) {
