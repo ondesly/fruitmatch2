@@ -59,6 +59,7 @@ bool fm::MenuScene::init() {
             auto button = makeButton(it->GetString());
             table->addChild(button);
         }
+        table->layout();
     }
 
     return true;

@@ -42,23 +42,3 @@ void fm::TableLayout::layout() {
                 (mN - ((i / mM) + 0.5f)) * child->getContentSize().height * (1 + mBorder)));
     }
 }
-
-void fm::TableLayout::addChild(cocos2d::Node *child) {
-    Node::addChild(child);
-}
-
-void fm::TableLayout::addChild(cocos2d::Node *child, int localZOrder) {
-    Node::addChild(child, localZOrder);
-}
-
-void fm::TableLayout::addChild(cocos2d::Node *child, int localZOrder, int tag) {
-    Node::addChild(child, localZOrder, tag);
-
-    layout();
-}
-
-void fm::TableLayout::addChild(cocos2d::Node *child, int localZOrder, const std::string &name) {
-    Node::addChild(child, localZOrder, name);
-
-    layout();
-}

@@ -17,27 +17,18 @@ namespace fm {
 
         bool init() override;
 
-        void addChild(Node *child) override;
+        void layout();
 
-        void addChild(Node *child, int localZOrder) override;
-
-        void addChild(Node *child, int localZOrder, int tag) override;
-
-        void addChild(Node *child, int localZOrder, const std::string &name) override;
-
-    private:
+    protected:
 
         const int mM;
         const int mN;
+
         const float mBorder;
 
-    private:
+    protected:
 
         TableLayout(int m, int n, float border);
-
-    private:
-
-        void layout();
 
     };
 
