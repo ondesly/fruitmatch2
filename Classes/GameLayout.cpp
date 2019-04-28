@@ -9,6 +9,10 @@
 
 #include "GameLayout.h"
 
+const std::string fm::GameLayout::ACTION_COMPLETE_EVENT_NAME = "game_layout_action_complete";
+const std::string fm::GameLayout::SCORE_CHANGED_EVENT_NAME = "score_changed_action_complete";
+const std::string fm::GameLayout::MOVES_CHANGED_EVENT_NAME = "moves_changed_action_complete";
+
 fm::GameLayout *fm::GameLayout::create(const int m, const int n, const float border) {
     auto layout = new(std::nothrow) GameLayout(m, n, border);
     if (layout && layout->init()) {
@@ -24,6 +28,26 @@ bool fm::GameLayout::init() {
         return false;
     }
 
+    mOnActionComplete = cocos2d::EventListenerCustom::create(ACTION_COMPLETE_EVENT_NAME, [&](cocos2d::EventCustom *event) {
+        auto action = *static_cast<Action *>(event->getUserData());
+        switch (action) {
+            case Action::SWAP:
+                match();
+                break;
+            case Action::MATCH:
+                fall();
+                break;
+            case Action::FALL:
+                spawn();
+                break;
+            case Action::SPAWN:
+                bool value = true;
+                _eventDispatcher->dispatchCustomEvent(ThingNode::TOUCH_ENABLED_EVENT_NAME, &value);
+                break;
+        }
+
+    });
+    _eventDispatcher->addEventListenerWithSceneGraphPriority(mOnActionComplete, this);
 
     return true;
 }
@@ -87,6 +111,7 @@ void fm::GameLayout::setThings(const std::vector<Thing> &things) {
         } while (!isUniqueThing(cell->getIndex(), thing));
 
         auto thingNode = ThingNode::create(thing);
+        thingNode->setPosition(cell->getPosition());
         addChild(thingNode);
 
         cell->setThingNode(thingNode);
@@ -147,10 +172,11 @@ void fm::GameLayout::onHit(const size_t index, const fm::CellNode::Direction dir
         if (neighbour->getThing() == cell->getThing()) {
             swap(index, neighbourIndex);
 
-            ++mMoves;
-            _eventDispatcher->dispatchCustomEvent("moves_changed");
+            bool value = false;
+            _eventDispatcher->dispatchCustomEvent(ThingNode::TOUCH_ENABLED_EVENT_NAME, &value);
 
-            checkMatch();
+            ++mMoves;
+            _eventDispatcher->dispatchCustomEvent(MOVES_CHANGED_EVENT_NAME);
             break;
         }
     }
@@ -161,11 +187,19 @@ void fm::GameLayout::swap(const size_t indexFrom, const size_t indexTo) {
     auto thingNodeFrom = cellFrom->getThingNode();
 
     auto cellTo = mCells[indexTo];
-    cellFrom->setThingNode(cellTo->getThingNode());
+    auto thingNodeTo = cellTo->getThingNode();
+
+    cellFrom->setThingNode(thingNodeTo);
+    thingNodeTo->moveToDefaultPosition();
+
     cellTo->setThingNode(thingNodeFrom);
+    thingNodeFrom->moveToDefaultPosition([&]() {
+        Action action(Action::SWAP);
+        _eventDispatcher->dispatchCustomEvent(ACTION_COMPLETE_EVENT_NAME, &action);
+    });
 }
 
-void fm::GameLayout::checkMatch() {
+void fm::GameLayout::match() {
     std::vector<size_t> indexes;
 
     for (size_t i = 0; i < mCells.size(); ++i) {
@@ -194,14 +228,31 @@ void fm::GameLayout::checkMatch() {
         auto cell = mCells[index];
 
         auto thingNode = cell->getThingNode();
-        thingNode->removeFromParent();
+        if (index == indexes.front()) {
+            thingNode->remove([&]() {
+                Action action(Action::MATCH);
+                _eventDispatcher->dispatchCustomEvent(ACTION_COMPLETE_EVENT_NAME, &action);
+            });
+        } else {
+            thingNode->remove();
+        }
 
         cell->setThingNode(nullptr);
     }
 
     mScore += indexes.size();
 
-    _eventDispatcher->dispatchCustomEvent("score_changed");
+    _eventDispatcher->dispatchCustomEvent(SCORE_CHANGED_EVENT_NAME);
+}
+
+void fm::GameLayout::fall() {
+    Action action(Action::FALL);
+    _eventDispatcher->dispatchCustomEvent(ACTION_COMPLETE_EVENT_NAME, &action);
+}
+
+void fm::GameLayout::spawn() {
+    Action action(Action::SPAWN);
+    _eventDispatcher->dispatchCustomEvent(ACTION_COMPLETE_EVENT_NAME, &action);
 }
 
 size_t fm::GameLayout::getScore() const {
@@ -210,4 +261,10 @@ size_t fm::GameLayout::getScore() const {
 
 size_t fm::GameLayout::getMoves() const {
     return mMoves;
+}
+
+void fm::GameLayout::onExit() {
+    Node::onExit();
+
+    _eventDispatcher->removeEventListener(mOnActionComplete);
 }

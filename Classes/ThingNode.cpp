@@ -2,9 +2,13 @@
 // Created by ondesly on 2019-04-28.
 //
 
+#include "2d/CCActionInterval.h"
+#include "2d/CCActionInstant.h"
 #include <base/CCEventListenerTouch.h>
 
 #include "ThingNode.h"
+
+const std::string fm::ThingNode::TOUCH_ENABLED_EVENT_NAME = "thing_node_touch_enabled";
 
 fm::ThingNode *fm::ThingNode::create(const fm::Thing &thing) {
     auto node = new(std::nothrow) ThingNode(thing);
@@ -17,7 +21,11 @@ fm::ThingNode *fm::ThingNode::create(const fm::Thing &thing) {
 }
 
 fm::ThingNode::ThingNode(const Thing &thing) : mThing(thing) {
-
+    mOnTouchEnabled = cocos2d::EventListenerCustom::create(TOUCH_ENABLED_EVENT_NAME, [&](cocos2d::EventCustom *event) {
+        auto value = *static_cast<bool *>(event->getUserData());
+        mTouchListener->setEnabled(value);
+    });
+    _eventDispatcher->addEventListenerWithSceneGraphPriority(mOnTouchEnabled, this);
 }
 
 bool fm::ThingNode::init() {
@@ -39,7 +47,6 @@ bool fm::ThingNode::init() {
 
 void fm::ThingNode::setDefaultPosition(const cocos2d::Vec2 &position) {
     mDefaultPosition = position;
-    setPosition(mDefaultPosition);
 }
 
 void fm::ThingNode::setOnPositionChanged(const std::function<void(ThingNode *)> &onPositionChanged) {
@@ -69,15 +76,25 @@ void fm::ThingNode::onTouchMoved(cocos2d::Touch *touch, cocos2d::Event *unusedEv
 }
 
 void fm::ThingNode::onTouchEnded(cocos2d::Touch *touch, cocos2d::Event *unusedEvent) {
+    if (mIsTouchPaused) {
+        return;
+    }
+
     setPosition(mDefaultPosition);
 }
 
 void fm::ThingNode::onTouchCancelled(cocos2d::Touch *touch, cocos2d::Event *unusedEvent) {
+    if (mIsTouchPaused) {
+        return;
+    }
+
     setPosition(mDefaultPosition);
 }
 
 void fm::ThingNode::onExit() {
     Node::onExit();
+
+    _eventDispatcher->removeEventListener(mOnTouchEnabled);
 
     _eventDispatcher->removeEventListener(mTouchListener);
     mTouchListener->release();
@@ -89,4 +106,27 @@ void fm::ThingNode::setTouchPaused(const bool value) {
 
 const fm::Thing &fm::ThingNode::getThing() const {
     return mThing;
+}
+
+void fm::ThingNode::moveToDefaultPosition(const std::function<void()> &onComplete) {
+    stopAllActions();
+    runAction(cocos2d::Sequence::create(
+            cocos2d::MoveTo::create(0.2f, mDefaultPosition),
+            cocos2d::CallFunc::create(onComplete),
+            nullptr
+    ));
+}
+
+void fm::ThingNode::remove(const std::function<void()> &onComplete) {
+    stopAllActions();
+    runAction(cocos2d::Sequence::create(
+            cocos2d::ScaleTo::create(0.2f, 0.01),
+            cocos2d::CallFunc::create([&, onComplete]() {
+                if (onComplete) {
+                    onComplete();
+                }
+                removeFromParent();
+            }),
+            nullptr
+    ));
 }

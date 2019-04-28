@@ -12,9 +12,21 @@
 #include "TableLayout.h"
 #include "Thing.h"
 
+namespace cocos2d {
+
+    class EventListenerCustom;
+
+}
+
 namespace fm {
 
     class GameLayout : public TableLayout {
+    public:
+
+        static const std::string ACTION_COMPLETE_EVENT_NAME;
+        static const std::string SCORE_CHANGED_EVENT_NAME;
+        static const std::string MOVES_CHANGED_EVENT_NAME;
+
     public:
 
         static GameLayout *create(int m, int n, float border);
@@ -22,6 +34,8 @@ namespace fm {
     public:
 
         bool init() override;
+
+        void onExit() override;
 
         void addCell(bool is_enabled);
 
@@ -44,6 +58,17 @@ namespace fm {
         size_t mScore = 0;
         size_t mMoves = 0;
 
+        cocos2d::EventListenerCustom *mOnActionComplete;
+
+    private:
+
+        enum class Action {
+            SWAP,
+            MATCH,
+            FALL,
+            SPAWN
+        };
+
     private:
 
         GameLayout(int m, int n, float border);
@@ -60,7 +85,11 @@ namespace fm {
 
         void swap(size_t indexFrom, size_t indexTo);
 
-        void checkMatch();
+        void match();
+
+        void fall();
+
+        void spawn();
 
     };
 

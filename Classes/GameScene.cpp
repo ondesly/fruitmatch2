@@ -104,16 +104,18 @@ bool fm::GameScene::init() {
 
     // Listeners
 
-    mOnScoreChanged = cocos2d::EventListenerCustom::create("score_changed", [&](cocos2d::EventCustom *event) {
-        auto score = mGame->getScore();
-        mScoreLabel->setString("Goal: " + std::to_string(score) + "/10");
-    });
+    mOnScoreChanged = cocos2d::EventListenerCustom::create(GameLayout::SCORE_CHANGED_EVENT_NAME,
+            [&](cocos2d::EventCustom *event) {
+                auto score = mGame->getScore();
+                mScoreLabel->setString("Goal: " + std::to_string(score) + "/10");
+            });
     _eventDispatcher->addEventListenerWithSceneGraphPriority(mOnScoreChanged, this);
 
-    mOnMovesChanged = cocos2d::EventListenerCustom::create("moves_changed", [&](cocos2d::EventCustom *event) {
-        auto moves = mGame->getMoves();
-        mMovesLabel->setString("Moves: " + std::to_string(moves));
-    });
+    mOnMovesChanged = cocos2d::EventListenerCustom::create(GameLayout::MOVES_CHANGED_EVENT_NAME,
+            [&](cocos2d::EventCustom *event) {
+                auto moves = mGame->getMoves();
+                mMovesLabel->setString("Moves: " + std::to_string(moves));
+            });
     _eventDispatcher->addEventListenerWithSceneGraphPriority(mOnMovesChanged, this);
 
     return true;

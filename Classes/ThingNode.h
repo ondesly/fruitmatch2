@@ -19,6 +19,10 @@ namespace fm {
     class ThingNode : public cocos2d::Sprite {
     public:
 
+        static const std::string TOUCH_ENABLED_EVENT_NAME;
+
+    public:
+
         static ThingNode *create(const Thing &thing);
 
     public:
@@ -35,6 +39,10 @@ namespace fm {
 
         const Thing &getThing() const;
 
+        void moveToDefaultPosition(const std::function<void()> &onComplete = nullptr);
+
+        void remove(const std::function<void()> &onComplete = nullptr);
+
     private:
 
         const Thing mThing;
@@ -44,6 +52,8 @@ namespace fm {
         cocos2d::EventListenerTouchOneByOne *mTouchListener;
         bool mIsTouchPaused;
         cocos2d::Vec2 mDefaultPosition;
+
+        cocos2d::EventListenerCustom *mOnTouchEnabled;
 
     private:
 

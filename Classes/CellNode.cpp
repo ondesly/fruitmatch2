@@ -96,6 +96,7 @@ void fm::CellNode::onThingNodePositionChanged(ThingNode *const node) {
     node->setTouchPaused(isPaused);
 
     if (direction != Direction::NONE) {
+        node->moveToDefaultPosition();
         mOnHit(mIndex, direction);
     }
 }
