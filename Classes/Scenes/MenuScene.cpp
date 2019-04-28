@@ -86,7 +86,8 @@ cocos2d::ui::Button *fm::MenuScene::makeButton(const std::string &name) {
     button->addTouchEventListener([name](Ref *sender, cocos2d::ui::Widget::TouchEventType type) {
         if (type == cocos2d::ui::Widget::TouchEventType::ENDED) {
             auto scene = GameScene::create(name);
-            cocos2d::Director::getInstance()->replaceScene(scene);
+            cocos2d::Director::getInstance()->replaceScene(
+                    cocos2d::TransitionFade::create(Constants::ANIMATION_DURATION, scene, Constants::BG_COLOR));
         }
     });
 

@@ -162,18 +162,16 @@ void fm::GameScene::setListeners() {
                 auto score = mGame->getScore();
                 if (score >= mGoal) {
                     auto dialog = Dialog::create(this, "You won!",
-                            [](Dialog *const dialog) {
-                                auto scene = MenuScene::create();
-                                cocos2d::Director::getInstance()->replaceScene(scene);
+                            [&](Dialog *const dialog) {
+                                showMenu();
                             });
                     addChild(dialog);
                 } else {
                     auto moves = mGame->getMoves();
                     if (mMoves - moves == 0) {
                         auto dialog = Dialog::create(this, "You lose!",
-                                [](Dialog *const dialog) {
-                                    auto scene = MenuScene::create();
-                                    cocos2d::Director::getInstance()->replaceScene(scene);
+                                [&](Dialog *const dialog) {
+                                    showMenu();
                                 });
                         addChild(dialog);
                     }
@@ -210,15 +208,13 @@ cocos2d::ui::Button *fm::GameScene::makeBackButton() {
     button->addTouchEventListener([&](Ref *sender, cocos2d::ui::Widget::TouchEventType type) {
         if (type == cocos2d::ui::Widget::TouchEventType::ENDED) {
             auto dialog = Dialog::create(this, "Are you sure?",
-                    [](Dialog *const dialog) {
-                        auto scene = MenuScene::create();
-                        cocos2d::Director::getInstance()->replaceScene(scene);
+                    [&](Dialog *const dialog) {
+                        showMenu();
                     },
                     [](Dialog *const dialog) {
                         dialog->removeFromParent();
                     });
             addChild(dialog);
-
         }
     });
 
@@ -231,4 +227,10 @@ void fm::GameScene::onExit() {
     _eventDispatcher->removeEventListener(mOnScoreChanged);
     _eventDispatcher->removeEventListener(mOnMovesChanged);
     _eventDispatcher->removeEventListener(mOnAction);
+}
+
+void fm::GameScene::showMenu() {
+    auto scene = MenuScene::create();
+    cocos2d::Director::getInstance()->replaceScene(
+            cocos2d::TransitionFade::create(Constants::ANIMATION_DURATION, scene, Constants::BG_COLOR));
 }

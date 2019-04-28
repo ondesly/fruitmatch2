@@ -63,6 +63,8 @@ namespace fm {
 
         void setListeners();
 
+        void showMenu();
+
     };
 
 }
