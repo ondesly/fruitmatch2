@@ -57,7 +57,7 @@ fm::ThingNode *fm::CellNode::getThingNode() const {
     return mThingNode;
 }
 
-const fm::Thing &fm::CellNode::getThing() const {
+fm::Thing fm::CellNode::getThing() const {
     if (mThingNode) {
         return mThingNode->getThing();
     } else {

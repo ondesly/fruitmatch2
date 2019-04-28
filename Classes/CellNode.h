@@ -39,7 +39,7 @@ namespace fm {
 
         ThingNode *getThingNode() const;
 
-        const Thing &getThing() const;
+        Thing getThing() const;
 
     private:
 
@@ -47,7 +47,7 @@ namespace fm {
         const std::function<void(size_t, Direction)> mOnHit;
 
         ThingNode *mThingNode = nullptr;
-        
+
     private:
 
         CellNode(size_t index, const std::function<void(size_t, Direction)> &onHit);
