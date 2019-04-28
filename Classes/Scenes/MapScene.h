@@ -18,10 +18,10 @@ namespace cocos2d {
 
 namespace fm {
 
-    class MenuScene : public cocos2d::Scene {
+    class MapScene : public cocos2d::Scene {
     public:
 
-        static MenuScene *create();
+        static MapScene *create();
 
     public:
 

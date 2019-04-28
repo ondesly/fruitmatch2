@@ -28,7 +28,7 @@
 		B13994A9FDFF271A734DE62F /* Dialog.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B139951A00D6853560837B29 /* Dialog.cpp */; };
 		B1399555E2286685A08940A5 /* GameScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B13996B35C1FEBE8456AA546 /* GameScene.cpp */; };
 		B1399AB099C5DE1D386F2300 /* ThingNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B13995EFBB1CB2CB09308EA6 /* ThingNode.cpp */; };
-		B1399AB9B1FC2192447AA455 /* MenuScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B1399768BAA04CE2BE40925D /* MenuScene.cpp */; };
+		B1399AB9B1FC2192447AA455 /* MapScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B1399768BAA04CE2BE40925D /* MapScene.cpp */; };
 		B1399B4C1F5CE37D6DA9C735 /* GameLayout.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B13993410AA68328CC1F22E5 /* GameLayout.cpp */; };
 		B1399CEAE4D7544176E4C659 /* TableLayout.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B139959263D577D165EA6975 /* TableLayout.cpp */; };
 		B1399DD10010C2DA21B8E046 /* Constants.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B1399F8809C27DBD7131776D /* Constants.cpp */; };
@@ -92,13 +92,13 @@
 		B139916442403CBDA8EB4BB8 /* Thing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Thing.h; sourceTree = "<group>"; };
 		B13993410AA68328CC1F22E5 /* GameLayout.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameLayout.cpp; sourceTree = "<group>"; };
 		B139943691A5A79D489587FC /* Dialog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Dialog.h; sourceTree = "<group>"; };
-		B13994F139C0895944B32297 /* MenuScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuScene.h; sourceTree = "<group>"; };
+		B13994F139C0895944B32297 /* MapScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapScene.h; sourceTree = "<group>"; };
 		B139951A00D6853560837B29 /* Dialog.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Dialog.cpp; sourceTree = "<group>"; };
 		B139959263D577D165EA6975 /* TableLayout.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TableLayout.cpp; sourceTree = "<group>"; };
 		B13995E7613406AD6BF1D959 /* GameLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameLayout.h; sourceTree = "<group>"; };
 		B13995EFBB1CB2CB09308EA6 /* ThingNode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ThingNode.cpp; sourceTree = "<group>"; };
 		B13996B35C1FEBE8456AA546 /* GameScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameScene.cpp; sourceTree = "<group>"; };
-		B1399768BAA04CE2BE40925D /* MenuScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MenuScene.cpp; sourceTree = "<group>"; };
+		B1399768BAA04CE2BE40925D /* MapScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MapScene.cpp; sourceTree = "<group>"; };
 		B1399A32EE9A24B3D794D2B6 /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
 		B1399B6F559358D2C11223C8 /* TableLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TableLayout.h; sourceTree = "<group>"; };
 		B1399B9F3325AFB5D7C62B56 /* ThingNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThingNode.h; sourceTree = "<group>"; };
@@ -246,8 +246,8 @@
 			isa = PBXGroup;
 			children = (
 				B1399EDF43FF59CEB722B726 /* GameScene.h */,
-				B1399768BAA04CE2BE40925D /* MenuScene.cpp */,
-				B13994F139C0895944B32297 /* MenuScene.h */,
+				B1399768BAA04CE2BE40925D /* MapScene.cpp */,
+				B13994F139C0895944B32297 /* MapScene.h */,
 				B13996B35C1FEBE8456AA546 /* GameScene.cpp */,
 			);
 			path = Scenes;
@@ -376,7 +376,7 @@
 				B1399DD10010C2DA21B8E046 /* Constants.cpp in Sources */,
 				B13994A9FDFF271A734DE62F /* Dialog.cpp in Sources */,
 				B1399CEAE4D7544176E4C659 /* TableLayout.cpp in Sources */,
-				B1399AB9B1FC2192447AA455 /* MenuScene.cpp in Sources */,
+				B1399AB9B1FC2192447AA455 /* MapScene.cpp in Sources */,
 				B1399555E2286685A08940A5 /* GameScene.cpp in Sources */,
 				B13993D4BE7F14000D982F6D /* CellNode.cpp in Sources */,
 				B1399B4C1F5CE37D6DA9C735 /* GameLayout.cpp in Sources */,

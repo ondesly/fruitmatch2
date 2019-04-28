@@ -23,7 +23,7 @@
  ****************************************************************************/
 
 #include "AppDelegate.h"
-#include "MenuScene.h"
+#include "MapScene.h"
 
 // #define USE_AUDIO_ENGINE 1
 // #define USE_SIMPLE_AUDIO_ENGINE 1
@@ -130,7 +130,7 @@ bool AppDelegate::applicationDidFinishLaunching() {
     cocos2d::FileUtils::getInstance()->setSearchPaths({"textures/" + std::to_string(closest_dpi)});
 
     // create a scene. it's an autorelease object
-    auto scene = fm::MenuScene::create();
+    auto scene = fm::MapScene::create();
 
     // run
     director->runWithScene(scene);

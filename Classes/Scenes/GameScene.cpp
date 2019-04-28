@@ -16,7 +16,7 @@
 #include "Constants.h"
 #include "Dialog.h"
 #include "GameLayout.h"
-#include "MenuScene.h"
+#include "MapScene.h"
 #include "Thing.h"
 
 #include "GameScene.h"
@@ -221,7 +221,7 @@ void fm::GameScene::onExit() {
 }
 
 void fm::GameScene::showMenu() {
-    auto scene = MenuScene::create();
+    auto scene = MapScene::create();
     cocos2d::Director::getInstance()->replaceScene(
             cocos2d::TransitionFade::create(Constants::ANIMATION_DURATION, scene, Constants::BG_COLOR));
 }

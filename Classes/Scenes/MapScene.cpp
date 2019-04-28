@@ -10,10 +10,10 @@
 #include "GameScene.h"
 #include "TableLayout.h"
 
-#include "MenuScene.h"
+#include "MapScene.h"
 
-fm::MenuScene *fm::MenuScene::create() {
-    auto scene = new(std::nothrow) MenuScene();
+fm::MapScene *fm::MapScene::create() {
+    auto scene = new(std::nothrow) MapScene();
     if (scene && scene->init()) {
         scene->autorelease();
         return scene;
@@ -22,7 +22,7 @@ fm::MenuScene *fm::MenuScene::create() {
     return nullptr;
 }
 
-bool fm::MenuScene::init() {
+bool fm::MapScene::init() {
     if (!cocos2d::Scene::init()) {
         return false;
     }
@@ -86,7 +86,7 @@ bool fm::MenuScene::init() {
     return true;
 }
 
-cocos2d::ui::Button *fm::MenuScene::makeButton(const std::string &name, const std::string &title) {
+cocos2d::ui::Button *fm::MapScene::makeButton(const std::string &name, const std::string &title) {
     auto button = cocos2d::ui::Button::create("button", "", "", cocos2d::ui::Widget::TextureResType::PLIST);
     button->setScale9Enabled(true);
     button->getRendererNormal()->setColor(Constants::BUTTON_COLOR);
