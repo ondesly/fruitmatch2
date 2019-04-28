@@ -210,6 +210,10 @@ void fm::GameLayout::match() {
         }
 
         for (auto j = 0; j < 4; ++j) {
+            if ((i % mM == 0 && mOffset[j] == -1) || (i % mM == mM - 1 && mOffset[j] == 1)) {
+                continue;
+            }
+
             const auto neighbourIndex = i + mOffset[j];
 
             if (neighbourIndex < 0 || neighbourIndex >= mCells.size()) {
@@ -240,12 +244,86 @@ void fm::GameLayout::match() {
         cell->setThingNode(nullptr);
     }
 
-    mScore += indexes.size();
+    if (indexes.empty()) {
+        Action action(Action::MATCH);
+        _eventDispatcher->dispatchCustomEvent(ACTION_COMPLETE_EVENT_NAME, &action);
+    } else {
+        mScore += indexes.size();
+        _eventDispatcher->dispatchCustomEvent(SCORE_CHANGED_EVENT_NAME);
+    }
+}
 
-    _eventDispatcher->dispatchCustomEvent(SCORE_CHANGED_EVENT_NAME);
+size_t fm::GameLayout::getTopAvailableIndex(size_t index) const {
+    while (index >= 0 && index < mCells.size()) {
+        auto cell = mCells[index];
+        if (cell->getThingNode()) {
+            return index;
+        } else {
+            index -= mM;
+        }
+    }
+
+    return mCells.size();
+}
+
+size_t fm::GameLayout::getFallAvailableIndex(const size_t index) const {
+
+    // Direct
+
+    auto top_index = getTopAvailableIndex(index - mM);
+
+    if (top_index != mCells.size()) {
+        return top_index;
+    }
+
+    // Sides
+
+    size_t top_left_index;
+    if (index % mM == 0) {
+        top_left_index = mCells.size();
+    } else {
+        top_left_index = getTopAvailableIndex(index - 1 - mM);
+    }
+
+    size_t top_right_index;
+    if (index % mM == mM - 1) {
+        top_right_index = mCells.size();
+    } else {
+        top_right_index = getTopAvailableIndex(index + 1 - mM);
+    }
+
+    if (top_left_index == mCells.size() && top_right_index == mCells.size()) {
+        return mCells.size();
+    }
+
+    if (top_left_index != mCells.size() && top_right_index == mCells.size()) {
+        return top_left_index;
+    }
+
+    if (top_left_index == mCells.size() && top_right_index != mCells.size()) {
+        return top_right_index;
+    }
+
+    return std::max(top_left_index, top_right_index);
 }
 
 void fm::GameLayout::fall() {
+    for (size_t i = 0; i < mCells.size(); ++i) {
+        auto index = mCells.size() - 1 - i;
+        auto cell = mCells[index];
+
+        if (cell->isVisible() && !cell->getThingNode()) {
+            auto available_index = getFallAvailableIndex(index);
+            if (available_index != mCells.size()) {
+                auto available = mCells[available_index];
+
+                cell->setThingNode(available->getThingNode());
+                cell->getThingNode()->moveToDefaultPosition();
+                available->setThingNode(nullptr);
+            }
+        }
+    }
+
     Action action(Action::FALL);
     _eventDispatcher->dispatchCustomEvent(ACTION_COMPLETE_EVENT_NAME, &action);
 }

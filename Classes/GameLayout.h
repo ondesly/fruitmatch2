@@ -83,6 +83,10 @@ namespace fm {
 
         size_t getNeighbourIndex(size_t index, CellNode::Direction direction) const;
 
+        size_t getTopAvailableIndex(size_t index) const;
+
+        size_t getFallAvailableIndex(size_t index) const;
+
         void swap(size_t indexFrom, size_t indexTo);
 
         void match();
