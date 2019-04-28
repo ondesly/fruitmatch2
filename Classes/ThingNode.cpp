@@ -6,9 +6,9 @@
 
 #include "ThingNode.h"
 
-fm::ThingNode *fm::ThingNode::create(const fm::Thing &thing, const std::function<void(ThingNode *)> &onPositionChanged) {
-    auto node = new(std::nothrow) ThingNode(onPositionChanged);
-    if (node && node->initWithSpriteFrameName(thing.name)) {
+fm::ThingNode *fm::ThingNode::create(const fm::Thing &thing) {
+    auto node = new(std::nothrow) ThingNode(thing);
+    if (node && node->init()) {
         node->autorelease();
         return node;
     }
@@ -16,13 +16,12 @@ fm::ThingNode *fm::ThingNode::create(const fm::Thing &thing, const std::function
     return nullptr;
 }
 
-fm::ThingNode::ThingNode(const std::function<void(ThingNode *)> &onPositionChanged)
-        : mOnPositionChanged(onPositionChanged) {
+fm::ThingNode::ThingNode(const Thing &thing) : mThing(thing) {
 
 }
 
-bool fm::ThingNode::initWithSpriteFrameName(const std::string &spriteFrameName) {
-    if (!cocos2d::Sprite::initWithSpriteFrameName(spriteFrameName)) {
+bool fm::ThingNode::init() {
+    if (!cocos2d::Sprite::initWithSpriteFrameName(mThing.name)) {
         return false;
     }
 
@@ -38,10 +37,24 @@ bool fm::ThingNode::initWithSpriteFrameName(const std::string &spriteFrameName) 
     return true;
 }
 
+void fm::ThingNode::setDefaultPosition(const cocos2d::Vec2 &position) {
+    mDefaultPosition = position;
+    setPosition(mDefaultPosition);
+}
+
+void fm::ThingNode::setOnPositionChanged(const std::function<void(ThingNode *)> &onPositionChanged) {
+    mOnPositionChanged = onPositionChanged;
+}
+
 bool fm::ThingNode::onTouchBegan(cocos2d::Touch *touch, cocos2d::Event *unusedEvent) {
-    mIsTouchPaused = false;
-    cocos2d::Rect rect(cocos2d::Vec2::ZERO, getContentSize());
-    return isScreenPointInRect(touch->getLocation(), cocos2d::Camera::getVisitingCamera(), getWorldToNodeTransform(), rect, nullptr);
+    if (isScreenPointInRect(touch->getLocation(), cocos2d::Camera::getVisitingCamera(), getWorldToNodeTransform(),
+            cocos2d::Rect(cocos2d::Vec2::ZERO, getContentSize()), nullptr)) {
+        mIsTouchPaused = false;
+
+        return true;
+    } else {
+        return false;
+    }
 }
 
 void fm::ThingNode::onTouchMoved(cocos2d::Touch *touch, cocos2d::Event *unusedEvent) {
@@ -56,11 +69,11 @@ void fm::ThingNode::onTouchMoved(cocos2d::Touch *touch, cocos2d::Event *unusedEv
 }
 
 void fm::ThingNode::onTouchEnded(cocos2d::Touch *touch, cocos2d::Event *unusedEvent) {
-    setPosition(getParent()->getContentSize() / 2);
+    setPosition(mDefaultPosition);
 }
 
 void fm::ThingNode::onTouchCancelled(cocos2d::Touch *touch, cocos2d::Event *unusedEvent) {
-    setPosition(getParent()->getContentSize() / 2);
+    setPosition(mDefaultPosition);
 }
 
 void fm::ThingNode::onExit() {
@@ -72,4 +85,8 @@ void fm::ThingNode::onExit() {
 
 void fm::ThingNode::setTouchPaused(const bool value) {
     mIsTouchPaused = value;
+}
+
+const fm::Thing &fm::ThingNode::getThing() const {
+    return mThing;
 }

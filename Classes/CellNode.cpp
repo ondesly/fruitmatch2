@@ -41,50 +41,54 @@ size_t fm::CellNode::getIndex() const {
     return mIndex;
 }
 
-void fm::CellNode::setThing(const Thing &thing) {
-    mThing = thing;
+void fm::CellNode::setThingNode(ThingNode *const thingNode) {
+    mThingNode = thingNode;
 
-    if (mThingNode) {
-        removeChild(mThingNode);
-    }
-
-    if (thing.name.empty()) {
+    if (mThingNode == nullptr) {
         return;
     }
 
-    mThingNode = ThingNode::create(thing, std::bind(&CellNode::onThingNodePositionChanged, this, std::placeholders::_1));
+    mThingNode->setOnPositionChanged(std::bind(&CellNode::onThingNodePositionChanged, this, std::placeholders::_1));
     mThingNode->setScale(getContentSize().width / mThingNode->getContentSize().width * 0.75f);
-    mThingNode->setPosition(getContentSize() / 2);
-    addChild(mThingNode);
+    mThingNode->setDefaultPosition(getPosition());
+}
+
+fm::ThingNode *fm::CellNode::getThingNode() const {
+    return mThingNode;
 }
 
 const fm::Thing &fm::CellNode::getThing() const {
-    return mThing;
+    if (mThingNode) {
+        return mThingNode->getThing();
+    } else {
+        return {};
+    }
 }
 
 void fm::CellNode::onThingNodePositionChanged(ThingNode *const node) {
-    auto scaledHalfSize = node->getContentSize() / 2 * node->getScale();
+    auto deltaPosition = node->getPosition() - getPosition();
+    auto deltaSize = getContentSize() / 2 - node->getContentSize() / 2 * node->getScale();
 
     Direction direction = Direction::NONE;
     bool isPaused = false;
     auto position = node->getPosition();
 
-    if (node->getPosition().x <= scaledHalfSize.width) {
+    if (deltaPosition.x <= -deltaSize.width) {
         direction = Direction::LEFT;
         isPaused = true;
-        position.x = scaledHalfSize.width;
-    } else if (node->getPosition().x >= getContentSize().width - scaledHalfSize.width) {
+        position.x = getPosition().x - deltaSize.width;
+    } else if (deltaPosition.x >= deltaSize.width) {
         direction = Direction::RIGHT;
-        position.x = getContentSize().width - scaledHalfSize.width;
+        position.x = getPosition().x + deltaSize.width;
         isPaused = true;
     }
-    if (node->getPosition().y >= getContentSize().height - scaledHalfSize.height) {
+    if (deltaPosition.y >= deltaSize.height) {
         direction = Direction::TOP;
-        position.y = getContentSize().height - scaledHalfSize.height;
+        position.y = getPosition().y + deltaSize.height;
         isPaused = true;
-    } else if (node->getPosition().y <= scaledHalfSize.height) {
+    } else if (deltaPosition.y <= -deltaSize.height) {
         direction = Direction::BOTTOM;
-        position.y = scaledHalfSize.height;
+        position.y = getPosition().y - deltaSize.height;
         isPaused = true;
     }
 

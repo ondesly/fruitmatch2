@@ -35,7 +35,9 @@ namespace fm {
 
         size_t getIndex() const;
 
-        void setThing(const Thing &thing);
+        void setThingNode(ThingNode *thingNode);
+
+        ThingNode *getThingNode() const;
 
         const Thing &getThing() const;
 
@@ -45,8 +47,7 @@ namespace fm {
         const std::function<void(size_t, Direction)> mOnHit;
 
         ThingNode *mThingNode = nullptr;
-        Thing mThing;
-
+        
     private:
 
         CellNode(size_t index, const std::function<void(size_t, Direction)> &onHit);

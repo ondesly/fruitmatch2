@@ -19,26 +19,35 @@ namespace fm {
     class ThingNode : public cocos2d::Sprite {
     public:
 
-        static ThingNode *create(const Thing &thing, const std::function<void(ThingNode *)> &onPositionChanged);
+        static ThingNode *create(const Thing &thing);
 
     public:
 
-        bool initWithSpriteFrameName(const std::string& spriteFrameName) override;
+        bool init() override;
 
         void onExit() override;
 
+        void setDefaultPosition(const cocos2d::Vec2 &position);
+
+        void setOnPositionChanged(const std::function<void(ThingNode *)> &onPositionChanged);
+
         void setTouchPaused(bool value);
+
+        const Thing &getThing() const;
 
     private:
 
-        const std::function<void(ThingNode *)> mOnPositionChanged;
+        const Thing mThing;
+
+        std::function<void(ThingNode *)> mOnPositionChanged;
 
         cocos2d::EventListenerTouchOneByOne *mTouchListener;
         bool mIsTouchPaused;
+        cocos2d::Vec2 mDefaultPosition;
 
     private:
 
-        ThingNode(const std::function<void(ThingNode *)> &onPositionChanged);
+        ThingNode(const Thing &thing);
 
     private:
 

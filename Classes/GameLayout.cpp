@@ -5,6 +5,7 @@
 #include <random>
 
 #include "CellNode.h"
+#include "ThingNode.h"
 
 #include "GameLayout.h"
 
@@ -85,8 +86,10 @@ void fm::GameLayout::setThings(const std::vector<Thing> &things) {
             thing = getRandomThing();
         } while (!isUniqueThing(cell->getIndex(), thing));
 
+        auto thingNode = ThingNode::create(thing);
+        addChild(thingNode);
 
-        cell->setThing(thing);
+        cell->setThingNode(thingNode);
     }
 }
 
@@ -143,6 +146,10 @@ void fm::GameLayout::onHit(const size_t index, const fm::CellNode::Direction dir
         auto neighbour = mCells[i];
         if (neighbour->getThing() == cell->getThing()) {
             swap(index, neighbourIndex);
+
+            ++mMoves;
+            _eventDispatcher->dispatchCustomEvent("moves_changed");
+
             checkMatch();
             break;
         }
@@ -151,15 +158,11 @@ void fm::GameLayout::onHit(const size_t index, const fm::CellNode::Direction dir
 
 void fm::GameLayout::swap(const size_t indexFrom, const size_t indexTo) {
     auto cellFrom = mCells[indexFrom];
-    auto thingFrom = cellFrom->getThing();
+    auto thingNodeFrom = cellFrom->getThingNode();
 
     auto cellTo = mCells[indexTo];
-    cellFrom->setThing(cellTo->getThing());
-    cellTo->setThing(thingFrom);
-
-    ++mMoves;
-
-    _eventDispatcher->dispatchCustomEvent("moves_changed");
+    cellFrom->setThingNode(cellTo->getThingNode());
+    cellTo->setThingNode(thingNodeFrom);
 }
 
 void fm::GameLayout::checkMatch() {
@@ -167,6 +170,10 @@ void fm::GameLayout::checkMatch() {
 
     for (size_t i = 0; i < mCells.size(); ++i) {
         auto cell = mCells[i];
+
+        if (!cell->isVisible() || cell->getThing().name.empty()) {
+            continue;
+        }
 
         for (auto j = 0; j < 4; ++j) {
             const auto neighbourIndex = i + mOffset[j];
@@ -185,7 +192,11 @@ void fm::GameLayout::checkMatch() {
 
     for (auto index : indexes) {
         auto cell = mCells[index];
-        cell->setThing({});
+
+        auto thingNode = cell->getThingNode();
+        thingNode->removeFromParent();
+
+        cell->setThingNode(nullptr);
     }
 
     mScore += indexes.size();
