@@ -8,6 +8,7 @@
 #include <json/document.h>
 #include <ui/UIButton.h>
 #include <ui/UIImageView.h>
+#include <ui/UIScale9Sprite.h>
 #include <ui/UIWidget.h>
 
 #include "Constants.h"
@@ -109,7 +110,7 @@ bool fm::GameScene::init() {
         mGame = GameLayout::create(width, field.Size() / width, 0.1f);
         mGame->setPosition(getContentSize() / 2);
         mGame->setContentSize(cocos2d::Size(
-                getContentSize().width - backButton->getContentSize().width * 3,
+                getContentSize().width - backButton->getContentSize().width * 2 - border * 4,
                 getContentSize().height - border * 2));
         addChild(mGame);
 
@@ -194,6 +195,7 @@ fm::GameScene::GameScene(const std::string &level_name) : mLevelName(level_name)
 cocos2d::ui::Button *fm::GameScene::makeBackButton() {
     auto button = cocos2d::ui::Button::create("button", "", "", cocos2d::ui::Widget::TextureResType::PLIST);
     button->setScale9Enabled(true);
+    button->getRendererNormal()->setColor(Constants::BUTTON_COLOR);
 
     auto size = button->getNormalTextureSize();
     button->setCapInsets(cocos2d::Rect(size.width * 1.75f, size.height * 1.75f, size.width * 1.75f, size.height * 1.75f));
@@ -203,7 +205,7 @@ cocos2d::ui::Button *fm::GameScene::makeBackButton() {
     button->setTitleText("Back");
 
     button->setUnifySizeEnabled(true);
-    button->setContentSize(button->getVirtualRendererSize() + cocos2d::Size(button->getVirtualRendererSize().height * 0.75f, 0.f));
+    button->setContentSize(button->getContentSize() + cocos2d::Size(button->getVirtualRendererSize().height, 0.f));
 
     button->addTouchEventListener([&](Ref *sender, cocos2d::ui::Widget::TouchEventType type) {
         if (type == cocos2d::ui::Widget::TouchEventType::ENDED) {

@@ -3,6 +3,7 @@
 //
 
 #include <ui/UIButton.h>
+#include <ui/UIScale9Sprite.h>
 #include <ui/UIWidget.h>
 
 #include "Constants.h"
@@ -103,6 +104,7 @@ bool fm::Dialog::init(cocos2d::Node *const parent, const std::string &text, cons
 cocos2d::ui::Button *fm::Dialog::makeButton(const std::string &text, const std::function<void(Dialog *)> &fn) {
     auto button = cocos2d::ui::Button::create("button", "", "", cocos2d::ui::Widget::TextureResType::PLIST);
     button->setScale9Enabled(true);
+    button->getRendererNormal()->setColor(Constants::BUTTON_COLOR);
 
     auto size = button->getNormalTextureSize();
     button->setCapInsets(cocos2d::Rect(size.width * 1.75f, size.height * 1.75f, size.width * 1.75f, size.height * 1.75f));

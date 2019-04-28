@@ -4,6 +4,8 @@
 
 #pragma once
 
+#include <string>
+
 #include <2d/CCSprite.h>
 
 #include "Thing.h"

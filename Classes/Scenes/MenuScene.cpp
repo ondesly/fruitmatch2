@@ -4,6 +4,7 @@
 
 #include <json/document.h>
 #include <ui/UIButton.h>
+#include <ui/UIScale9Sprite.h>
 
 #include "Constants.h"
 #include "GameScene.h"
@@ -70,6 +71,7 @@ bool fm::MenuScene::init() {
 cocos2d::ui::Button *fm::MenuScene::makeButton(const std::string &name) {
     auto button = cocos2d::ui::Button::create("button", "", "", cocos2d::ui::Widget::TextureResType::PLIST);
     button->setScale9Enabled(true);
+    button->getRendererNormal()->setColor(Constants::BUTTON_COLOR);
 
     const auto size = button->getNormalTextureSize();
     button->setCapInsets(cocos2d::Rect(size.width * 1.75f, size.height * 1.75f, size.width * 1.75f, size.height * 1.75f));
@@ -77,6 +79,9 @@ cocos2d::ui::Button *fm::MenuScene::makeButton(const std::string &name) {
 
     button->setTitleFontSize(cocos2d::Device::getDPI() * 0.15f);
     button->setTitleText(name);
+
+    button->setUnifySizeEnabled(true);
+    button->setContentSize(button->getVirtualRendererSize() + button->getVirtualRendererSize() * 0.75f);
 
     button->addTouchEventListener([name](Ref *sender, cocos2d::ui::Widget::TouchEventType type) {
         if (type == cocos2d::ui::Widget::TouchEventType::ENDED) {

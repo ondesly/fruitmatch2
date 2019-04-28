@@ -2,6 +2,8 @@
 // Created by ondesly on 2019-04-28.
 //
 
+#include <sstream>
+
 #include "2d/CCActionInterval.h"
 #include "2d/CCActionInstant.h"
 #include <base/CCEventListenerTouch.h>
@@ -36,6 +38,20 @@ bool fm::ThingNode::init() {
     if (!cocos2d::Sprite::initWithSpriteFrameName(mThing.name)) {
         return false;
     }
+
+    // Color
+
+    int color = 0;
+    std::stringstream ss;
+    ss << std::hex << mThing.color;
+    ss >> color;
+
+    setColor(cocos2d::Color3B(
+            GLubyte((color >> 16) & 255),
+            GLubyte((color >> 8) & 255),
+            GLubyte(color & 255)));
+
+    // Touch
 
     mTouchListener = cocos2d::EventListenerTouchOneByOne::create();
     mTouchListener->retain();
