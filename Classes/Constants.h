@@ -4,6 +4,8 @@
 
 #pragma once
 
+#include <string>
+
 #include <base/ccTypes.h>
 
 namespace fm {
@@ -15,7 +17,13 @@ namespace fm {
         static const cocos2d::Color3B BLACKOUT_COLOR;
         static const cocos2d::Color3B BUTTON_COLOR;
 
+    public:
+
         static const float ANIMATION_DURATION;
+
+    public:
+
+        static const std::string PROGRESS_FILE_NAME;
 
     };
 

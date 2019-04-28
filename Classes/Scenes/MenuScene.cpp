@@ -41,15 +41,28 @@ bool fm::MenuScene::init() {
 
     //
 
-    rapidjson::Document document;
+    rapidjson::Document progressDoc;
+    auto path = cocos2d::FileUtils::getInstance()->getWritablePath() + Constants::PROGRESS_FILE_NAME;
+    auto progressData = cocos2d::FileUtils::getInstance()->getStringFromFile(path);
+    if (progressData.empty()) {
+        progressDoc.SetObject();
+    } else {
+        progressDoc.Parse(progressData.c_str());
+        if (progressDoc.HasParseError()) {
+            progressDoc.SetObject();
+        }
+    }
 
-    auto levels_data = cocos2d::FileUtils::getInstance()->getStringFromFile("levels/levels.json");
-    document.Parse(levels_data.c_str());
+    //
 
-    if (document.IsObject()) {
-        auto m = document["m"].GetInt();
-        auto n = document["n"].GetInt();
-        auto b = document["b"].GetFloat();
+    rapidjson::Document levelsDoc;
+    auto levelsData = cocos2d::FileUtils::getInstance()->getStringFromFile("levels/levels.json");
+    levelsDoc.Parse(levelsData.c_str());
+
+    if (!levelsDoc.HasParseError()) {
+        auto m = levelsDoc["m"].GetInt();
+        auto n = levelsDoc["n"].GetInt();
+        auto b = levelsDoc["b"].GetFloat();
 
         auto table = TableLayout::create(m, n, b);
         table->setPosition(getContentSize() / 2);
@@ -57,9 +70,14 @@ bool fm::MenuScene::init() {
 
         //
 
-        auto levels = document["levels"].GetArray();
+        auto levels = levelsDoc["levels"].GetArray();
         for (auto it = levels.Begin(); it != levels.End(); ++it) {
-            auto button = makeButton(it->GetString());
+            cocos2d::ui::Button *button;
+            if (progressDoc.HasMember(it->GetString())) {
+                button = makeButton(it->GetString(), "✓");
+            } else {
+                button = makeButton(it->GetString(), it->GetString());
+            }
             table->addChild(button);
         }
         table->layout();
@@ -68,7 +86,7 @@ bool fm::MenuScene::init() {
     return true;
 }
 
-cocos2d::ui::Button *fm::MenuScene::makeButton(const std::string &name) {
+cocos2d::ui::Button *fm::MenuScene::makeButton(const std::string &name, const std::string &title) {
     auto button = cocos2d::ui::Button::create("button", "", "", cocos2d::ui::Widget::TextureResType::PLIST);
     button->setScale9Enabled(true);
     button->getRendererNormal()->setColor(Constants::BUTTON_COLOR);
@@ -77,8 +95,8 @@ cocos2d::ui::Button *fm::MenuScene::makeButton(const std::string &name) {
     button->setCapInsets(cocos2d::Rect(size.width * 1.75f, size.height * 1.75f, size.width * 1.75f, size.height * 1.75f));
     button->setZoomScale(-0.1f);
 
-    button->setTitleFontSize(cocos2d::Device::getDPI() * 0.15f);
-    button->setTitleText(name);
+    button->setTitleFontSize(cocos2d::Device::getDPI() * 0.2f);
+    button->setTitleText(title);
 
     button->setUnifySizeEnabled(true);
     button->setContentSize(button->getVirtualRendererSize() + button->getVirtualRendererSize() * 0.75f);

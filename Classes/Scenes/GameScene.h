@@ -55,7 +55,7 @@ namespace fm {
 
     private:
 
-        GameScene(const std::string &level_name);
+        GameScene(const std::string &levelName);
 
     private:
 
@@ -64,6 +64,10 @@ namespace fm {
         void setListeners();
 
         void showMenu();
+
+        void showCompleteDialog(bool success);
+
+        void saveProgress();
 
     };
 

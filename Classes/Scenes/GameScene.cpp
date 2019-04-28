@@ -6,6 +6,8 @@
 
 #include <base/CCEventListenerCustom.h>
 #include <json/document.h>
+#include <json/stringbuffer.h>
+#include <json/writer.h>
 #include <ui/UIButton.h>
 #include <ui/UIImageView.h>
 #include <ui/UIScale9Sprite.h>
@@ -94,10 +96,10 @@ bool fm::GameScene::init() {
 
     rapidjson::Document document;
 
-    auto levels_data = cocos2d::FileUtils::getInstance()->getStringFromFile("levels/level_" + mLevelName + ".json");
-    document.Parse(levels_data.c_str());
+    auto levelsData = cocos2d::FileUtils::getInstance()->getStringFromFile("levels/level_" + mLevelName + ".json");
+    document.Parse(levelsData.c_str());
 
-    if (document.IsObject()) {
+    if (!document.HasParseError()) {
         mGoal = document["goal"].GetUint();
         mScoreLabel->setString("0/" + std::to_string(mGoal));
 
@@ -159,22 +161,11 @@ void fm::GameScene::setListeners() {
         auto action = *static_cast<GameLayout::Action *>(event->getUserData());
         switch (action) {
             case GameLayout::Action::DONE: {
-                auto score = mGame->getScore();
-                if (score >= mGoal) {
-                    auto dialog = Dialog::create(this, "You won!",
-                            [&](Dialog *const dialog) {
-                                showMenu();
-                            });
-                    addChild(dialog);
-                } else {
-                    auto moves = mGame->getMoves();
-                    if (mMoves - moves == 0) {
-                        auto dialog = Dialog::create(this, "You lose!",
-                                [&](Dialog *const dialog) {
-                                    showMenu();
-                                });
-                        addChild(dialog);
-                    }
+                if (mGame->getScore() >= mGoal) {
+                    saveProgress();
+                    showCompleteDialog(true);
+                } else if (mMoves - mGame->getMoves() == 0) {
+                    showCompleteDialog(false);
                 }
                 break;
             }
@@ -186,7 +177,7 @@ void fm::GameScene::setListeners() {
     _eventDispatcher->addEventListenerWithSceneGraphPriority(mOnAction, this);
 }
 
-fm::GameScene::GameScene(const std::string &level_name) : mLevelName(level_name) {
+fm::GameScene::GameScene(const std::string &levelName) : mLevelName(levelName) {
 
 }
 
@@ -233,4 +224,38 @@ void fm::GameScene::showMenu() {
     auto scene = MenuScene::create();
     cocos2d::Director::getInstance()->replaceScene(
             cocos2d::TransitionFade::create(Constants::ANIMATION_DURATION, scene, Constants::BG_COLOR));
+}
+
+void fm::GameScene::showCompleteDialog(bool success) {
+    auto text = success ? "You won!" : "You lose!";
+    auto dialog = Dialog::create(this, text,
+            [&](Dialog *const dialog) {
+                showMenu();
+            });
+    addChild(dialog);
+}
+
+void fm::GameScene::saveProgress() {
+    rapidjson::Document document;
+
+    auto path = cocos2d::FileUtils::getInstance()->getWritablePath() + Constants::PROGRESS_FILE_NAME;
+
+    auto levelsData = cocos2d::FileUtils::getInstance()->getStringFromFile(path);
+    if (levelsData.empty()) {
+        document.SetObject();
+    } else {
+        document.Parse(levelsData.c_str());
+    }
+
+    //
+
+    document.AddMember(rapidjson::GenericStringRef(mLevelName.c_str()), rapidjson::Value(true), document.GetAllocator());
+
+    //
+
+    rapidjson::StringBuffer buffer;
+    rapidjson::Writer<rapidjson::StringBuffer> writer(buffer);
+    document.Accept(writer);
+    CCLOG("%s", cocos2d::FileUtils::getInstance()->getWritablePath().c_str());
+    cocos2d::FileUtils::getInstance()->writeStringToFile(buffer.GetString(), path);
 }

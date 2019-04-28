@@ -29,7 +29,7 @@ namespace fm {
 
     private:
 
-        cocos2d::ui::Button *makeButton(const std::string &name);
+        cocos2d::ui::Button *makeButton(const std::string &name, const std::string &title);
 
     };
 
