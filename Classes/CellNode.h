@@ -10,6 +10,8 @@
 
 namespace fm {
 
+    class ThingNode;
+
     class CellNode : public cocos2d::Node {
     public:
 
@@ -34,6 +36,10 @@ namespace fm {
     private:
 
         CellNode(size_t index);
+
+    private:
+
+        void onThingNodePositionChanged(ThingNode *node);
 
     };
 

@@ -26,6 +26,7 @@
 		907053B822743DDE00ADB1F3 /* textures in Resources */ = {isa = PBXBuildFile; fileRef = 907053B722743DDE00ADB1F3 /* textures */; };
 		B13991CEF2457CF6F248285B /* GameLayout.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B1399EE8C3F9253B12451BF1 /* GameLayout.cpp */; };
 		B1399404664EDF6E1D6A3C22 /* TableLayout.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B1399ECDFBC3FF2406897395 /* TableLayout.cpp */; };
+		B13996755F7060D7195B4D1C /* ThingNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B1399281FA68DC2543FF7DFD /* ThingNode.cpp */; };
 		B1399773F1D912DE986DA319 /* GameScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B13995E7A36A8BD140FAE986 /* GameScene.cpp */; };
 		B13997CE4C2CFC547D46C8B8 /* MenuScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B1399BB83D6F7CD7E1642BF9 /* MenuScene.cpp */; };
 		B1399B34707864CC0F870A14 /* CellNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B13999F7CF53AC7C3CB21995 /* CellNode.cpp */; };
@@ -102,6 +103,8 @@
 		907053B722743DDE00ADB1F3 /* textures */ = {isa = PBXFileReference; lastKnownFileType = folder; path = textures; sourceTree = "<group>"; };
 		B13991E93E1FC277809B1417 /* MenuScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuScene.h; sourceTree = "<group>"; };
 		B1399239CD7718FFBCBDA42C /* GameLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameLayout.h; sourceTree = "<group>"; };
+		B1399281FA68DC2543FF7DFD /* ThingNode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ThingNode.cpp; sourceTree = "<group>"; };
+		B13993067F5C83D6F9BF2328 /* ThingNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThingNode.h; sourceTree = "<group>"; };
 		B13994A1F46C5840E747F6DB /* Thing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Thing.h; sourceTree = "<group>"; };
 		B13994E86F0191B8DBB1C579 /* GameScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameScene.h; sourceTree = "<group>"; };
 		B13995E7A36A8BD140FAE986 /* GameScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameScene.cpp; sourceTree = "<group>"; };
@@ -250,6 +253,8 @@
 				B1399EE8C3F9253B12451BF1 /* GameLayout.cpp */,
 				B1399239CD7718FFBCBDA42C /* GameLayout.h */,
 				B13994A1F46C5840E747F6DB /* Thing.h */,
+				B1399281FA68DC2543FF7DFD /* ThingNode.cpp */,
+				B13993067F5C83D6F9BF2328 /* ThingNode.h */,
 			);
 			name = Classes;
 			path = ../Classes;
@@ -369,6 +374,7 @@
 				B1399773F1D912DE986DA319 /* GameScene.cpp in Sources */,
 				B1399B34707864CC0F870A14 /* CellNode.cpp in Sources */,
 				B13991CEF2457CF6F248285B /* GameLayout.cpp in Sources */,
+				B13996755F7060D7195B4D1C /* ThingNode.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
