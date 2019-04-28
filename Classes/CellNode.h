@@ -4,6 +4,8 @@
 
 #pragma once
 
+#include <functional>
+
 #include <2d/CCNode.h>
 
 #include "Thing.h"
@@ -15,7 +17,17 @@ namespace fm {
     class CellNode : public cocos2d::Node {
     public:
 
-        static CellNode *create(size_t index, const cocos2d::Size &size);
+        enum class Direction {
+            NONE,
+            LEFT,
+            TOP,
+            RIGHT,
+            BOTTOM
+        };
+
+    public:
+
+        static CellNode *create(size_t index, const cocos2d::Size &size, const std::function<void(size_t, Direction)> &onHit);
 
     public:
 
@@ -30,12 +42,14 @@ namespace fm {
     private:
 
         const size_t mIndex;
+        const std::function<void(size_t, Direction)> mOnHit;
 
+        ThingNode *mThingNode = nullptr;
         Thing mThing;
 
     private:
 
-        CellNode(size_t index);
+        CellNode(size_t index, const std::function<void(size_t, Direction)> &onHit);
 
     private:
 

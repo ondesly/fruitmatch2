@@ -37,7 +37,8 @@ void fm::GameLayout::addCell(const bool is_enabled) {
         mCellSize = cocos2d::Size(size, size);
     }
 
-    auto cell = CellNode::create(mCells.size(), mCellSize);
+    auto cell = CellNode::create(mCells.size(), mCellSize,
+            std::bind(&GameLayout::onHit, this, std::placeholders::_1, std::placeholders::_2));
     cell->setVisible(is_enabled);
     addChild(cell);
 
@@ -86,5 +87,100 @@ void fm::GameLayout::setThings(const std::vector<Thing> &things) {
 
 
         cell->setThing(thing);
+    }
+}
+
+size_t fm::GameLayout::getNeighbourIndex(size_t index, const fm::CellNode::Direction direction) const {
+    switch (direction) {
+        case CellNode::Direction::LEFT:
+            index -= 1;
+            break;
+        case CellNode::Direction::TOP:
+            index -= mM;
+            break;
+        case CellNode::Direction::RIGHT:
+            index += 1;
+            break;
+        case CellNode::Direction::BOTTOM:
+            index += mM;
+            break;
+        default:
+            break;
+    }
+
+    if (index < 0 || index >= mCells.size() || !mCells[index]->isVisible()) {
+        return mCells.size();
+    } else {
+        return index;
+    }
+}
+
+void fm::GameLayout::onHit(const size_t index, const fm::CellNode::Direction direction) {
+
+    // Neighbour
+
+    const auto neighbourIndex = getNeighbourIndex(index, direction);
+
+    if (neighbourIndex == mCells.size()) {
+        return;
+    }
+
+    // Neighbours of neighbour
+
+    size_t neighbours[4] = {
+            getNeighbourIndex(neighbourIndex, CellNode::Direction::LEFT),
+            getNeighbourIndex(neighbourIndex, CellNode::Direction::TOP),
+            getNeighbourIndex(neighbourIndex, CellNode::Direction::RIGHT),
+            getNeighbourIndex(neighbourIndex, CellNode::Direction::BOTTOM)
+    };
+
+    auto cell = mCells[index];
+    for (auto i : neighbours) {
+        if (i == mCells.size() || i == index) {
+            continue;
+        }
+
+        auto neighbour = mCells[i];
+        if (neighbour->getThing() == cell->getThing()) {
+            swap(index, neighbourIndex);
+            checkMatch();
+            break;
+        }
+    }
+}
+
+void fm::GameLayout::swap(const size_t indexFrom, const size_t indexTo) {
+    auto cellFrom = mCells[indexFrom];
+    auto thingFrom = cellFrom->getThing();
+
+    auto cellTo = mCells[indexTo];
+    cellFrom->setThing(cellTo->getThing());
+    cellTo->setThing(thingFrom);
+}
+
+void fm::GameLayout::checkMatch() {
+    std::vector<size_t> indexes;
+
+    for (size_t i = 0; i < mCells.size(); ++i) {
+        auto cell = mCells[i];
+
+        for (auto j = 0; j < 4; ++j) {
+            const auto neighbourIndex = i + mOffset[j];
+
+            if (neighbourIndex < 0 || neighbourIndex >= mCells.size()) {
+                continue;
+            }
+
+            auto neighbour = mCells[neighbourIndex];
+            if (neighbour->isVisible() && cell->getThing() == neighbour->getThing()) {
+                indexes.push_back(i);
+                break;
+            }
+        }
+    }
+
+    for (auto index : indexes) {
+        auto cell = mCells[index];
+        cell->setThing({});
     }
 }

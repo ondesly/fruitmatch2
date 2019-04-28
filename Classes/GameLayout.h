@@ -8,12 +8,11 @@
 
 #include <math/CCGeometry.h>
 
+#include "CellNode.h"
 #include "TableLayout.h"
 #include "Thing.h"
 
 namespace fm {
-
-    class CellNode;
 
     class GameLayout : public TableLayout {
     public:
@@ -47,6 +46,14 @@ namespace fm {
         const fm::Thing &getRandomThing();
 
         bool isUniqueThing(size_t index, const Thing &thing);
+
+        void onHit(size_t index, CellNode::Direction direction);
+
+        size_t getNeighbourIndex(size_t index, CellNode::Direction direction) const;
+
+        void swap(size_t indexFrom, size_t indexTo);
+
+        void checkMatch();
 
     };
 

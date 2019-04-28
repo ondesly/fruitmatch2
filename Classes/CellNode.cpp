@@ -6,8 +6,8 @@
 
 #include "CellNode.h"
 
-fm::CellNode *fm::CellNode::create(const size_t index, const cocos2d::Size &size) {
-    auto node = new(std::nothrow) CellNode(index);
+fm::CellNode *fm::CellNode::create(const size_t index, const cocos2d::Size &size, const std::function<void(size_t, Direction)> &onHit) {
+    auto node = new(std::nothrow) CellNode(index, onHit);
     if (node && node->init(size)) {
         node->autorelease();
         return node;
@@ -16,7 +16,8 @@ fm::CellNode *fm::CellNode::create(const size_t index, const cocos2d::Size &size
     return nullptr;
 }
 
-fm::CellNode::CellNode(const size_t index) : mIndex(index) {
+fm::CellNode::CellNode(const size_t index, const std::function<void(size_t, Direction)> &onHit)
+        : mIndex(index), mOnHit(onHit) {
 
 }
 
@@ -43,10 +44,18 @@ size_t fm::CellNode::getIndex() const {
 void fm::CellNode::setThing(const Thing &thing) {
     mThing = thing;
 
-    auto thingNode = ThingNode::create(thing, std::bind(&CellNode::onThingNodePositionChanged, this, std::placeholders::_1));
-    thingNode->setScale(getContentSize().width / thingNode->getContentSize().width * 0.75f);
-    thingNode->setPosition(getContentSize() / 2);
-    addChild(thingNode);
+    if (mThingNode) {
+        removeChild(mThingNode);
+    }
+
+    if (thing.name.empty()) {
+        return;
+    }
+
+    mThingNode = ThingNode::create(thing, std::bind(&CellNode::onThingNodePositionChanged, this, std::placeholders::_1));
+    mThingNode->setScale(getContentSize().width / mThingNode->getContentSize().width * 0.75f);
+    mThingNode->setPosition(getContentSize() / 2);
+    addChild(mThingNode);
 }
 
 const fm::Thing &fm::CellNode::getThing() const {
@@ -56,22 +65,33 @@ const fm::Thing &fm::CellNode::getThing() const {
 void fm::CellNode::onThingNodePositionChanged(ThingNode *const node) {
     auto scaledHalfSize = node->getContentSize() / 2 * node->getScale();
 
+    Direction direction = Direction::NONE;
     bool isPaused = false;
     auto position = node->getPosition();
+
     if (node->getPosition().x <= scaledHalfSize.width) {
-        position.x = scaledHalfSize.width;
+        direction = Direction::LEFT;
         isPaused = true;
+        position.x = scaledHalfSize.width;
     } else if (node->getPosition().x >= getContentSize().width - scaledHalfSize.width) {
+        direction = Direction::RIGHT;
         position.x = getContentSize().width - scaledHalfSize.width;
         isPaused = true;
     }
     if (node->getPosition().y >= getContentSize().height - scaledHalfSize.height) {
+        direction = Direction::TOP;
         position.y = getContentSize().height - scaledHalfSize.height;
         isPaused = true;
     } else if (node->getPosition().y <= scaledHalfSize.height) {
+        direction = Direction::BOTTOM;
         position.y = scaledHalfSize.height;
         isPaused = true;
     }
+
     node->setPosition(position);
     node->setTouchPaused(isPaused);
+
+    if (direction != Direction::NONE) {
+        mOnHit(mIndex, direction);
+    }
 }
