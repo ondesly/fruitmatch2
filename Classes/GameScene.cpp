@@ -2,13 +2,16 @@
 // Created by ondesly on 2019-04-27.
 //
 
+#include <unordered_map>
+
 #include <json/document.h>
 #include <ui/UIButton.h>
 #include <ui/UIImageView.h>
 #include <ui/UIWidget.h>
 
+#include "GameLayout.h"
 #include "MenuScene.h"
-#include "TableLayout.h"
+#include "Thing.h"
 
 #include "GameScene.h"
 
@@ -70,16 +73,30 @@ bool fm::GameScene::init() {
         auto width = document["width"].GetInt();
         auto field = document["field"].GetArray();
 
-        auto table = TableLayout::create(width, field.Size() / width, 0.1f);
-        table->setPosition(getContentSize() / 2);
-        addChild(table);
+        auto game = GameLayout::create(width, field.Size() / width, 0.1f);
+        game->setPosition(getContentSize() / 2);
+        game->setContentSize(cocos2d::Size(
+                getContentSize().width - backButton->getContentSize().width * 3,
+                getContentSize().height - mMovesLabel->getContentSize().height * 3));
+        addChild(game);
 
         //
 
         for (auto it = field.Begin(); it != field.End(); ++it) {
-            auto button = makeCell(it->GetInt() == 1);
-            table->addChild(button);
+            game->addCell(it->GetInt() == 1);
         }
+        game->layout();
+
+        //
+
+        std::vector<Thing> things;
+        auto things_object = document["things"].GetObject();
+        for (auto it = things_object.MemberBegin(); it != things_object.MemberEnd(); ++it) {
+            auto name = it->name.GetString();
+            auto color = it->value.GetString();
+            things.push_back({name, color});
+        }
+        game->setThings(things);
     }
 
     return true;
@@ -87,19 +104,6 @@ bool fm::GameScene::init() {
 
 fm::GameScene::GameScene(const std::string &level_name) : mLevelName(level_name) {
 
-}
-
-cocos2d::ui::Widget *fm::GameScene::makeCell(bool is_enabled) {
-    auto cell = cocos2d::ui::Widget::create();
-    cell->setContentSize(cocos2d::Size(50, 50));
-
-    auto bg = cocos2d::Sprite::create();
-    bg->setAnchorPoint(cocos2d::Vec2::ZERO);
-    bg->setTextureRect(cocos2d::Rect(cocos2d::Vec2::ZERO, cell->getContentSize()));
-    bg->setVisible(is_enabled);
-    cell->addChild(bg);
-
-    return cell;
 }
 
 cocos2d::ui::Button *fm::GameScene::makeBackButton() {

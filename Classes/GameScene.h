@@ -4,6 +4,8 @@
 
 #pragma once
 
+#include <string>
+
 #include <2d/CCScene.h>
 
 namespace cocos2d {
@@ -13,8 +15,6 @@ namespace cocos2d {
         class Button;
 
         class Label;
-
-        class Widget;
 
     }
 
@@ -43,8 +43,6 @@ namespace fm {
         GameScene(const std::string &level_name);
 
     private:
-
-        cocos2d::ui::Widget *makeCell(bool is_enabled);
 
         cocos2d::ui::Button *makeBackButton();
 

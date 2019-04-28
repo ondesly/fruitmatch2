@@ -24,9 +24,11 @@
 		907053A32273805100ADB1F3 /* logo@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 907053A02273805100ADB1F3 /* logo@3x.png */; };
 		907053A42273805100ADB1F3 /* logo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 907053A12273805100ADB1F3 /* logo@2x.png */; };
 		907053B822743DDE00ADB1F3 /* textures in Resources */ = {isa = PBXBuildFile; fileRef = 907053B722743DDE00ADB1F3 /* textures */; };
+		B13991CEF2457CF6F248285B /* GameLayout.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B1399EE8C3F9253B12451BF1 /* GameLayout.cpp */; };
 		B1399404664EDF6E1D6A3C22 /* TableLayout.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B1399ECDFBC3FF2406897395 /* TableLayout.cpp */; };
 		B1399773F1D912DE986DA319 /* GameScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B13995E7A36A8BD140FAE986 /* GameScene.cpp */; };
 		B13997CE4C2CFC547D46C8B8 /* MenuScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B1399BB83D6F7CD7E1642BF9 /* MenuScene.cpp */; };
+		B1399B34707864CC0F870A14 /* CellNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B13999F7CF53AC7C3CB21995 /* CellNode.cpp */; };
 		BF171245129291EC00B8313A /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF170DB012928DE900B8313A /* OpenGLES.framework */; };
 		BF1712471292920000B8313A /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = BF170DB412928DE900B8313A /* libz.dylib */; };
 		BF1C47F01293687400B63C5D /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF1C47EA1293683800B63C5D /* QuartzCore.framework */; };
@@ -99,11 +101,16 @@
 		907053A12273805100ADB1F3 /* logo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "logo@2x.png"; sourceTree = "<group>"; };
 		907053B722743DDE00ADB1F3 /* textures */ = {isa = PBXFileReference; lastKnownFileType = folder; path = textures; sourceTree = "<group>"; };
 		B13991E93E1FC277809B1417 /* MenuScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuScene.h; sourceTree = "<group>"; };
+		B1399239CD7718FFBCBDA42C /* GameLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameLayout.h; sourceTree = "<group>"; };
+		B13994A1F46C5840E747F6DB /* Thing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Thing.h; sourceTree = "<group>"; };
 		B13994E86F0191B8DBB1C579 /* GameScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameScene.h; sourceTree = "<group>"; };
 		B13995E7A36A8BD140FAE986 /* GameScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameScene.cpp; sourceTree = "<group>"; };
+		B139992F9E7F986075D02893 /* CellNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CellNode.h; sourceTree = "<group>"; };
+		B13999F7CF53AC7C3CB21995 /* CellNode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CellNode.cpp; sourceTree = "<group>"; };
 		B1399BB83D6F7CD7E1642BF9 /* MenuScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MenuScene.cpp; sourceTree = "<group>"; };
 		B1399EC4AFE833217BEA0AA1 /* TableLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TableLayout.h; sourceTree = "<group>"; };
 		B1399ECDFBC3FF2406897395 /* TableLayout.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TableLayout.cpp; sourceTree = "<group>"; };
+		B1399EE8C3F9253B12451BF1 /* GameLayout.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameLayout.cpp; sourceTree = "<group>"; };
 		BF170DB012928DE900B8313A /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		BF170DB412928DE900B8313A /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		BF1C47EA1293683800B63C5D /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
@@ -238,6 +245,11 @@
 				B1399EC4AFE833217BEA0AA1 /* TableLayout.h */,
 				B13995E7A36A8BD140FAE986 /* GameScene.cpp */,
 				B13994E86F0191B8DBB1C579 /* GameScene.h */,
+				B13999F7CF53AC7C3CB21995 /* CellNode.cpp */,
+				B139992F9E7F986075D02893 /* CellNode.h */,
+				B1399EE8C3F9253B12451BF1 /* GameLayout.cpp */,
+				B1399239CD7718FFBCBDA42C /* GameLayout.h */,
+				B13994A1F46C5840E747F6DB /* Thing.h */,
 			);
 			name = Classes;
 			path = ../Classes;
@@ -355,6 +367,8 @@
 				B13997CE4C2CFC547D46C8B8 /* MenuScene.cpp in Sources */,
 				B1399404664EDF6E1D6A3C22 /* TableLayout.cpp in Sources */,
 				B1399773F1D912DE986DA319 /* GameScene.cpp in Sources */,
+				B1399B34707864CC0F870A14 /* CellNode.cpp in Sources */,
+				B13991CEF2457CF6F248285B /* GameLayout.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
