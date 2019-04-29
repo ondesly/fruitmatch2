@@ -39,6 +39,10 @@ namespace fm {
 
     private:
 
+        static const float CELL_BORDER;
+
+    private:
+
         const std::string mLevelName;
 
         GameLayout *mGame;
@@ -60,6 +64,8 @@ namespace fm {
     private:
 
         cocos2d::ui::Button *makeBackButton();
+
+        cocos2d::Label *makeLabel(const std::string &text, float fontSize) const;
 
         void setListeners();
 

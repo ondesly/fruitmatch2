@@ -9,7 +9,6 @@
 #include <json/stringbuffer.h>
 #include <json/writer.h>
 #include <ui/UIButton.h>
-#include <ui/UIImageView.h>
 #include <ui/UIWidget.h>
 
 #include "Constants.h"
@@ -20,6 +19,8 @@
 #include "UI.h"
 
 #include "GameScene.h"
+
+const float fm::GameScene::CELL_BORDER = 0.1f;
 
 fm::GameScene *fm::GameScene::create(const std::string &level_name) {
     auto scene = new(std::nothrow) GameScene(level_name);
@@ -54,38 +55,26 @@ bool fm::GameScene::init() {
 
     // Score
 
-    auto scoreTextLabel = cocos2d::Label::create();
-    scoreTextLabel->setSystemFontSize(UI::getFontMediumSize());
-    scoreTextLabel->setColor(Constants::BUTTON_COLOR);
-    scoreTextLabel->setString("Goal");
+    auto scoreTextLabel = makeLabel("Goal", UI::getFontMediumSize());
     scoreTextLabel->setPosition(cocos2d::Vec2(
             getContentSize().width - scoreTextLabel->getContentSize().width / 2 - UI::border() * 2,
             getContentSize().height * 0.6f + scoreTextLabel->getContentSize().height / 2));
     addChild(scoreTextLabel);
 
-    mScoreLabel = cocos2d::Label::create();
-    mScoreLabel->setSystemFontSize(UI::getFontLargeSize());
-    mScoreLabel->setColor(Constants::BUTTON_COLOR);
-    mScoreLabel->setString("00/00");
+    mScoreLabel = makeLabel("00/00", UI::getFontLargeSize());
     mScoreLabel->setPosition(scoreTextLabel->getPosition() +
             cocos2d::Vec2(0.f, mScoreLabel->getContentSize().height / 2 + scoreTextLabel->getContentSize().height / 2));
     addChild(mScoreLabel);
 
     // Moves
 
-    mMovesLabel = cocos2d::Label::create();
-    mMovesLabel->setSystemFontSize(UI::getFontLargeSize());
-    mMovesLabel->setColor(Constants::BUTTON_COLOR);
-    mMovesLabel->setString("00");
+    mMovesLabel = makeLabel("00", UI::getFontLargeSize());
     mMovesLabel->setPosition(cocos2d::Vec2(
             scoreTextLabel->getPosition().x,
             getContentSize().height * 0.4f - mMovesLabel->getContentSize().height / 2));
     addChild(mMovesLabel);
 
-    auto movesTextLabel = cocos2d::Label::create();
-    movesTextLabel->setSystemFontSize(UI::getFontMediumSize());
-    movesTextLabel->setColor(Constants::BUTTON_COLOR);
-    movesTextLabel->setString("Moves");
+    auto movesTextLabel = makeLabel("Moves", UI::getFontMediumSize());
     movesTextLabel->setPosition(mMovesLabel->getPosition() +
             cocos2d::Vec2(0.f, -mMovesLabel->getContentSize().height / 2 - movesTextLabel->getContentSize().height / 2));
     addChild(movesTextLabel);
@@ -108,7 +97,7 @@ bool fm::GameScene::init() {
         auto width = document["width"].GetInt();
         auto field = document["field"].GetArray();
 
-        mGame = GameLayout::create(width, field.Size() / width, 0.1f);
+        mGame = GameLayout::create(width, field.Size() / width, CELL_BORDER);
         mGame->setPosition(getContentSize() / 2);
         mGame->setContentSize(cocos2d::Size(
                 getContentSize().width - backButton->getContentSize().width * 2 - UI::border() * 4,
@@ -201,6 +190,15 @@ cocos2d::ui::Button *fm::GameScene::makeBackButton() {
     });
 
     return button;
+}
+
+cocos2d::Label *fm::GameScene::makeLabel(const std::string &text, float fontSize) const {
+    auto label = cocos2d::Label::create();
+    label->setSystemFontSize(fontSize);
+    label->setColor(Constants::BUTTON_COLOR);
+    label->setString(text);
+
+    return label;
 }
 
 void fm::GameScene::onExit() {
