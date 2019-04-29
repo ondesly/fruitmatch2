@@ -34,6 +34,8 @@ namespace fm {
         static const float BUTTON_INSET_RATIO;
         static const float BUTTON_ZOOM_SCALE;
 
+        static const std::string COMPLETE_SYMBOL;
+
     public:
 
         static const std::string TEXTURES_PATH;

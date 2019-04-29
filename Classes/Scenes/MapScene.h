@@ -4,6 +4,8 @@
 
 #pragma once
 
+#include <string>
+
 #include <2d/CCScene.h>
 
 namespace cocos2d {

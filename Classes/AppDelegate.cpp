@@ -22,6 +22,9 @@
  THE SOFTWARE.
  ****************************************************************************/
 
+#include <2d/CCSpriteFrameCache.h>
+#include <platform/CCFileUtils.h>
+
 #include "Constants.h"
 #include "MapScene.h"
 
@@ -119,7 +122,7 @@ bool AppDelegate::applicationDidFinishLaunching() {
     // Search path by screen size
 
     const int screenSize = int(std::min(frameSize.width, frameSize.height));
-    auto variants = get_dpi_variants("textures");
+    auto variants = get_dpi_variants(fm::Constants::TEXTURES_PATH);
     auto closestSize = *std::min_element(variants.begin(), variants.end(), [screenSize](int a, int b) {
         return std::abs(a - screenSize) < std::abs(b - screenSize);
     });

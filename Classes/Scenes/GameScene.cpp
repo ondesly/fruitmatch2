@@ -8,6 +8,8 @@
 #include <json/document.h>
 #include <json/stringbuffer.h>
 #include <json/writer.h>
+#include <math/Vec2.h>
+#include <platform/CCFileUtils.h>
 #include <ui/UIButton.h>
 #include <ui/UIWidget.h>
 

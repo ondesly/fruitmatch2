@@ -2,6 +2,8 @@
 // Created by ondesly on 2019-04-29.
 //
 
+#include <2d/CCSpriteFrameCache.h>
+#include <base/CCDirector.h>
 #include <ui/UIButton.h>
 #include <ui/UIScale9Sprite.h>
 

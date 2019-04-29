@@ -2,7 +2,11 @@
 // Created by ondesly on 2019-04-26.
 //
 
+#include <2d/CCSprite.h>
+#include <platform/CCFileUtils.h>
 #include <json/document.h>
+#include <math/CCGeometry.h>
+#include <math/Vec2.h>
 #include <ui/UIButton.h>
 
 #include "Constants.h"
@@ -73,7 +77,7 @@ bool fm::MapScene::init() {
         for (auto it = levels.Begin(); it != levels.End(); ++it) {
             cocos2d::ui::Button *button;
             if (progressDoc.HasMember(it->GetString())) {
-                button = makeButton(it->GetString(), "✓");
+                button = makeButton(it->GetString(), Constants::COMPLETE_SYMBOL);
             } else {
                 button = makeButton(it->GetString(), it->GetString());
             }
