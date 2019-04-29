@@ -24,6 +24,7 @@
 		907053A32273805100ADB1F3 /* logo@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 907053A02273805100ADB1F3 /* logo@3x.png */; };
 		907053A42273805100ADB1F3 /* logo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 907053A12273805100ADB1F3 /* logo@2x.png */; };
 		907053B822743DDE00ADB1F3 /* textures in Resources */ = {isa = PBXBuildFile; fileRef = 907053B722743DDE00ADB1F3 /* textures */; };
+		B1399037EA4DFBC2A3E4385B /* UI.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B1399CFF4B3E5DC8B8BF4C41 /* UI.cpp */; };
 		B13993D4BE7F14000D982F6D /* CellNode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B1399C238CFFF9728BFE16FF /* CellNode.cpp */; };
 		B13994A9FDFF271A734DE62F /* Dialog.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B139951A00D6853560837B29 /* Dialog.cpp */; };
 		B1399555E2286685A08940A5 /* GameScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B13996B35C1FEBE8456AA546 /* GameScene.cpp */; };
@@ -99,10 +100,12 @@
 		B13995EFBB1CB2CB09308EA6 /* ThingNode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ThingNode.cpp; sourceTree = "<group>"; };
 		B13996B35C1FEBE8456AA546 /* GameScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameScene.cpp; sourceTree = "<group>"; };
 		B1399768BAA04CE2BE40925D /* MapScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MapScene.cpp; sourceTree = "<group>"; };
+		B13999A0C52D07A289CBB847 /* UI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UI.h; sourceTree = "<group>"; };
 		B1399A32EE9A24B3D794D2B6 /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
 		B1399B6F559358D2C11223C8 /* TableLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TableLayout.h; sourceTree = "<group>"; };
 		B1399B9F3325AFB5D7C62B56 /* ThingNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThingNode.h; sourceTree = "<group>"; };
 		B1399C238CFFF9728BFE16FF /* CellNode.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CellNode.cpp; sourceTree = "<group>"; };
+		B1399CFF4B3E5DC8B8BF4C41 /* UI.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = UI.cpp; sourceTree = "<group>"; };
 		B1399EDF43FF59CEB722B726 /* GameScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameScene.h; sourceTree = "<group>"; };
 		B1399F4D313AAA6CF2B0C19D /* CellNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CellNode.h; sourceTree = "<group>"; };
 		B1399F8809C27DBD7131776D /* Constants.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Constants.cpp; sourceTree = "<group>"; };
@@ -237,6 +240,8 @@
 				B1399D43B010C996B07B81D5 /* Nodes */,
 				B1399020A8CFFB3AAA1F3609 /* Scenes */,
 				B1399DD3283A55FC7487262B /* Game */,
+				B1399CFF4B3E5DC8B8BF4C41 /* UI.cpp */,
+				B13999A0C52D07A289CBB847 /* UI.h */,
 			);
 			name = Classes;
 			path = ../Classes;
@@ -381,6 +386,7 @@
 				B13993D4BE7F14000D982F6D /* CellNode.cpp in Sources */,
 				B1399B4C1F5CE37D6DA9C735 /* GameLayout.cpp in Sources */,
 				B1399AB099C5DE1D386F2300 /* ThingNode.cpp in Sources */,
+				B1399037EA4DFBC2A3E4385B /* UI.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

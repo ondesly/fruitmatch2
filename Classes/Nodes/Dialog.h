@@ -4,6 +4,9 @@
 
 #pragma once
 
+#include <functional>
+#include <string>
+
 #include <2d/CCNode.h>
 
 namespace cocos2d {

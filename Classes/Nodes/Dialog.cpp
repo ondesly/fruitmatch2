@@ -3,10 +3,10 @@
 //
 
 #include <ui/UIButton.h>
-#include <ui/UIScale9Sprite.h>
 #include <ui/UIWidget.h>
 
 #include "Constants.h"
+#include "UI.h"
 
 #include "Dialog.h"
 
@@ -48,7 +48,7 @@ bool fm::Dialog::init(cocos2d::Node *const parent, const std::string &text, cons
     addChild(blackout);
 
     auto blackoutBg = cocos2d::Sprite::create();
-    blackoutBg->setOpacity(150);
+    blackoutBg->setOpacity(Constants::BLACKOUT_OPACITY);
     blackoutBg->setColor(Constants::BLACKOUT_COLOR);
     blackoutBg->setAnchorPoint(cocos2d::Vec2::ZERO);
     blackoutBg->setTextureRect(cocos2d::Rect(cocos2d::Vec2::ZERO, blackout->getContentSize()));
@@ -66,18 +66,16 @@ bool fm::Dialog::init(cocos2d::Node *const parent, const std::string &text, cons
     back->addChild(ok);
 
     auto label = cocos2d::Label::create();
-    label->setSystemFontSize(cocos2d::Device::getDPI() * 0.15f);
-    label->setColor(cocos2d::Color3B(0, 191, 124));
+    label->setSystemFontSize(UI::getFontMediumSize());
+    label->setColor(Constants::BUTTON_COLOR);
     label->setString(text);
     back->addChild(label);
 
     //
 
-    auto border = ok->getContentSize().height / 2;
-
     cocos2d::Size size(
-            ok->getContentSize().width * 2 + border * 3,
-            ok->getContentSize().height + border * 5 + label->getContentSize().height);
+            ok->getContentSize().width * 2 + UI::border() * 3,
+            ok->getContentSize().height + UI::border() * 5 + label->getContentSize().height);
     back->setTextureRect(cocos2d::Rect(cocos2d::Vec2::ZERO, size));
 
     //
@@ -86,15 +84,15 @@ bool fm::Dialog::init(cocos2d::Node *const parent, const std::string &text, cons
         auto cancel = makeButton("Cancel", onCancel);
         back->addChild(cancel);
 
-        ok->setPosition(cocos2d::Vec2(border, border) + ok->getContentSize() / 2);
-        cancel->setPosition(cocos2d::Vec2(border * 2 + ok->getContentSize().width, border) + cancel->getContentSize() / 2);
+        ok->setPosition(cocos2d::Vec2(UI::border(), UI::border()) + ok->getContentSize() / 2);
+        cancel->setPosition(cocos2d::Vec2(UI::border() * 2 + ok->getContentSize().width, UI::border()) + cancel->getContentSize() / 2);
     } else {
-        ok->setPosition(cocos2d::Vec2(back->getContentSize().width / 2, ok->getContentSize().height / 2 + border));
+        ok->setPosition(cocos2d::Vec2(back->getContentSize().width / 2, ok->getContentSize().height / 2 + UI::border()));
     }
 
     label->setPosition(cocos2d::Vec2(
             back->getContentSize().width / 2,
-            ok->getContentSize().height + border * 3 + label->getContentSize().height / 2));
+            ok->getContentSize().height + UI::border() * 3 + label->getContentSize().height / 2));
 
     //
 
@@ -102,15 +100,7 @@ bool fm::Dialog::init(cocos2d::Node *const parent, const std::string &text, cons
 }
 
 cocos2d::ui::Button *fm::Dialog::makeButton(const std::string &text, const std::function<void(Dialog *)> &fn) {
-    auto button = cocos2d::ui::Button::create("button", "", "", cocos2d::ui::Widget::TextureResType::PLIST);
-    button->setScale9Enabled(true);
-    button->getRendererNormal()->setColor(Constants::BUTTON_COLOR);
-
-    auto size = button->getNormalTextureSize();
-    button->setCapInsets(cocos2d::Rect(size.width * 1.75f, size.height * 1.75f, size.width * 1.75f, size.height * 1.75f));
-    button->setZoomScale(-0.1f);
-
-    button->setTitleFontSize(cocos2d::Device::getDPI() * 0.15f);
+    auto button = UI::makeButton();
     button->setTitleText(text);
 
     button->setUnifySizeEnabled(true);

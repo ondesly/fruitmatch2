@@ -10,7 +10,6 @@
 #include <json/writer.h>
 #include <ui/UIButton.h>
 #include <ui/UIImageView.h>
-#include <ui/UIScale9Sprite.h>
 #include <ui/UIWidget.h>
 
 #include "Constants.h"
@@ -18,6 +17,7 @@
 #include "GameLayout.h"
 #include "MapScene.h"
 #include "Thing.h"
+#include "UI.h"
 
 #include "GameScene.h"
 
@@ -46,28 +46,26 @@ bool fm::GameScene::init() {
 
     //
 
-    auto border = getContentSize().height * 0.05f;
-
     auto backButton = makeBackButton();
     backButton->setPosition(cocos2d::Vec2(
-            backButton->getContentSize().width / 2 + border,
-            getContentSize().height - backButton->getContentSize().height / 2 - border));
+            backButton->getContentSize().width / 2 + UI::border(),
+            getContentSize().height - backButton->getContentSize().height / 2 - UI::border()));
     addChild(backButton);
 
     // Score
 
     auto scoreTextLabel = cocos2d::Label::create();
-    scoreTextLabel->setSystemFontSize(cocos2d::Device::getDPI() * 0.1f);
-    scoreTextLabel->setColor(cocos2d::Color3B(0, 191, 124));
+    scoreTextLabel->setSystemFontSize(UI::getFontMediumSize());
+    scoreTextLabel->setColor(Constants::BUTTON_COLOR);
     scoreTextLabel->setString("Goal");
     scoreTextLabel->setPosition(cocos2d::Vec2(
-            getContentSize().width - scoreTextLabel->getContentSize().width / 2 - border * 2,
+            getContentSize().width - scoreTextLabel->getContentSize().width / 2 - UI::border() * 2,
             getContentSize().height * 0.6f + scoreTextLabel->getContentSize().height / 2));
     addChild(scoreTextLabel);
 
     mScoreLabel = cocos2d::Label::create();
-    mScoreLabel->setSystemFontSize(cocos2d::Device::getDPI() * 0.15f);
-    mScoreLabel->setColor(cocos2d::Color3B(0, 191, 124));
+    mScoreLabel->setSystemFontSize(UI::getFontLargeSize());
+    mScoreLabel->setColor(Constants::BUTTON_COLOR);
     mScoreLabel->setString("00/00");
     mScoreLabel->setPosition(scoreTextLabel->getPosition() +
             cocos2d::Vec2(0.f, mScoreLabel->getContentSize().height / 2 + scoreTextLabel->getContentSize().height / 2));
@@ -76,8 +74,8 @@ bool fm::GameScene::init() {
     // Moves
 
     mMovesLabel = cocos2d::Label::create();
-    mMovesLabel->setSystemFontSize(cocos2d::Device::getDPI() * 0.15f);
-    mMovesLabel->setColor(cocos2d::Color3B(0, 191, 124));
+    mMovesLabel->setSystemFontSize(UI::getFontLargeSize());
+    mMovesLabel->setColor(Constants::BUTTON_COLOR);
     mMovesLabel->setString("00");
     mMovesLabel->setPosition(cocos2d::Vec2(
             scoreTextLabel->getPosition().x,
@@ -85,8 +83,8 @@ bool fm::GameScene::init() {
     addChild(mMovesLabel);
 
     auto movesTextLabel = cocos2d::Label::create();
-    movesTextLabel->setSystemFontSize(cocos2d::Device::getDPI() * 0.1f);
-    movesTextLabel->setColor(cocos2d::Color3B(0, 191, 124));
+    movesTextLabel->setSystemFontSize(UI::getFontMediumSize());
+    movesTextLabel->setColor(Constants::BUTTON_COLOR);
     movesTextLabel->setString("Moves");
     movesTextLabel->setPosition(mMovesLabel->getPosition() +
             cocos2d::Vec2(0.f, -mMovesLabel->getContentSize().height / 2 - movesTextLabel->getContentSize().height / 2));
@@ -112,8 +110,8 @@ bool fm::GameScene::init() {
         mGame = GameLayout::create(width, field.Size() / width, 0.1f);
         mGame->setPosition(getContentSize() / 2);
         mGame->setContentSize(cocos2d::Size(
-                getContentSize().width - backButton->getContentSize().width * 2 - border * 4,
-                getContentSize().height - border * 2));
+                getContentSize().width - backButton->getContentSize().width * 2 - UI::border() * 4,
+                getContentSize().height - UI::border() * 2));
         addChild(mGame);
 
         //
@@ -182,15 +180,7 @@ fm::GameScene::GameScene(const std::string &levelName) : mLevelName(levelName) {
 }
 
 cocos2d::ui::Button *fm::GameScene::makeBackButton() {
-    auto button = cocos2d::ui::Button::create("button", "", "", cocos2d::ui::Widget::TextureResType::PLIST);
-    button->setScale9Enabled(true);
-    button->getRendererNormal()->setColor(Constants::BUTTON_COLOR);
-
-    auto size = button->getNormalTextureSize();
-    button->setCapInsets(cocos2d::Rect(size.width * 1.75f, size.height * 1.75f, size.width * 1.75f, size.height * 1.75f));
-    button->setZoomScale(-0.1f);
-
-    button->setTitleFontSize(cocos2d::Device::getDPI() * 0.15f);
+    auto button = UI::makeButton();
     button->setTitleText("Back");
 
     button->setUnifySizeEnabled(true);

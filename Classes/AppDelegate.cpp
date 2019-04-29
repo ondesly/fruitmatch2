@@ -116,12 +116,16 @@ bool AppDelegate::applicationDidFinishLaunching() {
 
     // Search path by dpi
 
-    const int dpi = cocos2d::Device::getDPI();
+    const int screenSize = int(std::min(frameSize.width, frameSize.height));
     auto variants = get_dpi_variants("textures");
-    auto closest_dpi = *std::min_element(variants.begin(), variants.end(), [dpi](int a, int b) {
-        return std::abs(a - dpi) < std::abs(b - dpi);
+    auto closestSize = *std::min_element(variants.begin(), variants.end(), [screenSize](int a, int b) {
+        return std::abs(a - screenSize) < std::abs(b - screenSize);
     });
-    cocos2d::FileUtils::getInstance()->setSearchPaths({"textures/" + std::to_string(closest_dpi)});
+    cocos2d::FileUtils::getInstance()->setSearchPaths({"textures/" + std::to_string(closestSize)});
+
+    //
+
+    cocos2d::SpriteFrameCache::getInstance()->addSpriteFramesWithFile("tex.plist");
 
     // create a scene. it's an autorelease object
     auto scene = fm::MapScene::create();

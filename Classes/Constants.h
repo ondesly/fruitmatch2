@@ -14,12 +14,23 @@ namespace fm {
     public:
 
         static const cocos2d::Color3B BG_COLOR;
-        static const cocos2d::Color3B BLACKOUT_COLOR;
         static const cocos2d::Color3B BUTTON_COLOR;
+
+        static const cocos2d::Color3B BLACKOUT_COLOR;
+        static const int BLACKOUT_OPACITY = 150;
 
     public:
 
+        static const float MEDIUM_TEXT_RATIO;
+        static const float LARGE_TEXT_RATIO;
+
         static const float ANIMATION_DURATION;
+
+    public:
+
+        static const std::string BUTTON_TEXTURE_NAME;
+        static const float BUTTON_INSET_RATIO;
+        static const float BUTTON_ZOOM_SCALE;
 
     public:
 
