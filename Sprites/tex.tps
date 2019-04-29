@@ -13,7 +13,7 @@
                 <key>scale</key>
                 <double>1</double>
                 <key>extension</key>
-                <string>525</string>
+                <string>2048</string>
                 <key>spriteFilter</key>
                 <string></string>
                 <key>acceptFractionalValues</key>
@@ -28,9 +28,9 @@
             </struct>
             <struct type="AutoSDSettings">
                 <key>scale</key>
-                <double>0.85</double>
+                <double>0.75</double>
                 <key>extension</key>
-                <string>450</string>
+                <string>1536</string>
                 <key>spriteFilter</key>
                 <string></string>
                 <key>acceptFractionalValues</key>
@@ -45,9 +45,9 @@
             </struct>
             <struct type="AutoSDSettings">
                 <key>scale</key>
-                <double>0.71</double>
+                <double>0.55</double>
                 <key>extension</key>
-                <string>375</string>
+                <string>1080</string>
                 <key>spriteFilter</key>
                 <string></string>
                 <key>acceptFractionalValues</key>
@@ -62,9 +62,9 @@
             </struct>
             <struct type="AutoSDSettings">
                 <key>scale</key>
-                <double>0.57</double>
+                <double>0.35</double>
                 <key>extension</key>
-                <string>300</string>
+                <string>720</string>
                 <key>spriteFilter</key>
                 <string></string>
                 <key>acceptFractionalValues</key>
@@ -75,40 +75,6 @@
                     <int>2048</int>
                     <key>height</key>
                     <int>2048</int>
-                </QSize>
-            </struct>
-            <struct type="AutoSDSettings">
-                <key>scale</key>
-                <double>0.43</double>
-                <key>extension</key>
-                <string>225</string>
-                <key>spriteFilter</key>
-                <string></string>
-                <key>acceptFractionalValues</key>
-                <false/>
-                <key>maxTextureSize</key>
-                <QSize>
-                    <key>width</key>
-                    <int>2048</int>
-                    <key>height</key>
-                    <int>2048</int>
-                </QSize>
-            </struct>
-            <struct type="AutoSDSettings">
-                <key>scale</key>
-                <double>0.29</double>
-                <key>extension</key>
-                <string>150</string>
-                <key>spriteFilter</key>
-                <string></string>
-                <key>acceptFractionalValues</key>
-                <false/>
-                <key>maxTextureSize</key>
-                <QSize>
-                    <key>width</key>
-                    <int>1024</int>
-                    <key>height</key>
-                    <int>1024</int>
                 </QSize>
             </struct>
         </array>
