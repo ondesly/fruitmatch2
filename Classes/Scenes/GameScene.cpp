@@ -249,7 +249,7 @@ void fm::GameScene::saveProgress() {
 
     //
 
-    document.AddMember(rapidjson::GenericStringRef(mLevelName.c_str()), rapidjson::Value(true), document.GetAllocator());
+    document.AddMember(rapidjson::StringRef(mLevelName.c_str()), rapidjson::Value(true), document.GetAllocator());
 
     //
 
