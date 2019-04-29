@@ -22,8 +22,10 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "AppDelegate.h"
+#include "Constants.h"
 #include "MapScene.h"
+
+#include "AppDelegate.h"
 
 // #define USE_AUDIO_ENGINE 1
 // #define USE_SIMPLE_AUDIO_ENGINE 1
@@ -114,18 +116,18 @@ bool AppDelegate::applicationDidFinishLaunching() {
 
     register_all_packages();
 
-    // Search path by dpi
+    // Search path by screen size
 
     const int screenSize = int(std::min(frameSize.width, frameSize.height));
     auto variants = get_dpi_variants("textures");
     auto closestSize = *std::min_element(variants.begin(), variants.end(), [screenSize](int a, int b) {
         return std::abs(a - screenSize) < std::abs(b - screenSize);
     });
-    cocos2d::FileUtils::getInstance()->setSearchPaths({"textures/" + std::to_string(closestSize)});
+    cocos2d::FileUtils::getInstance()->setSearchPaths({fm::Constants::TEXTURES_PATH + "/" + std::to_string(closestSize)});
 
-    //
+    // Main texture
 
-    cocos2d::SpriteFrameCache::getInstance()->addSpriteFramesWithFile("tex.plist");
+    cocos2d::SpriteFrameCache::getInstance()->addSpriteFramesWithFile(fm::Constants::TEXTURE_FILE_NAME);
 
     // create a scene. it's an autorelease object
     auto scene = fm::MapScene::create();

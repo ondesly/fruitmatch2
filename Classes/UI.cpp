@@ -17,7 +17,7 @@ float fm::UI::mFontLargeSize = 0;
 float fm::UI::border() {
     if (mBorder == 0) {
         auto size = cocos2d::Director::getInstance()->getWinSize();
-        mBorder = std::min(size.width, size.height) * 0.05f;
+        mBorder = std::min(size.width, size.height) * Constants::BORDER_RATIO;
     }
 
     return mBorder;
@@ -26,7 +26,7 @@ float fm::UI::border() {
 float fm::UI::getFontMediumSize() {
     if (mFontMediumSize == 0) {
         auto frame = cocos2d::SpriteFrameCache::getInstance()->getSpriteFrameByName(Constants::BUTTON_TEXTURE_NAME);
-        mFontMediumSize = frame->getOriginalSize().height * 0.5f;
+        mFontMediumSize = frame->getOriginalSize().height * Constants::MEDIUM_TEXT_RATIO;
     }
 
     return mFontMediumSize;
@@ -35,7 +35,7 @@ float fm::UI::getFontMediumSize() {
 float fm::UI::getFontLargeSize() {
     if (mFontLargeSize == 0) {
         auto frame = cocos2d::SpriteFrameCache::getInstance()->getSpriteFrameByName(Constants::BUTTON_TEXTURE_NAME);
-        mFontLargeSize = frame->getOriginalSize().height * 0.75f;
+        mFontLargeSize = frame->getOriginalSize().height * Constants::LARGE_TEXT_RATIO;
     }
 
     return mFontLargeSize;

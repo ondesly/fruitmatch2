@@ -94,7 +94,8 @@ bool fm::GameScene::init() {
 
     rapidjson::Document document;
 
-    auto levelsData = cocos2d::FileUtils::getInstance()->getStringFromFile("levels/level_" + mLevelName + ".json");
+    auto path = Constants::LEVELS_PATH + "/" + Constants::LEVEL_FILE_PREFIX + mLevelName + Constants::LEVEL_FILE_SUFFIX;
+    auto levelsData = cocos2d::FileUtils::getInstance()->getStringFromFile(path);
     document.Parse(levelsData.c_str());
 
     if (!document.HasParseError()) {
@@ -246,6 +247,6 @@ void fm::GameScene::saveProgress() {
     rapidjson::StringBuffer buffer;
     rapidjson::Writer<rapidjson::StringBuffer> writer(buffer);
     document.Accept(writer);
-    CCLOG("%s", cocos2d::FileUtils::getInstance()->getWritablePath().c_str());
+
     cocos2d::FileUtils::getInstance()->writeStringToFile(buffer.GetString(), path);
 }

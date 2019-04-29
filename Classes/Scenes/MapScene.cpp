@@ -37,9 +37,10 @@ bool fm::MapScene::init() {
 
     //
 
-    rapidjson::Document progressDoc;
     auto path = cocos2d::FileUtils::getInstance()->getWritablePath() + Constants::PROGRESS_FILE_NAME;
     auto progressData = cocos2d::FileUtils::getInstance()->getStringFromFile(path);
+
+    rapidjson::Document progressDoc;
     if (progressData.empty()) {
         progressDoc.SetObject();
     } else {
@@ -51,8 +52,10 @@ bool fm::MapScene::init() {
 
     //
 
+    path = Constants::LEVELS_PATH + "/" + Constants::LEVELS_FILE_NAME;
+    auto levelsData = cocos2d::FileUtils::getInstance()->getStringFromFile(path);
+
     rapidjson::Document levelsDoc;
-    auto levelsData = cocos2d::FileUtils::getInstance()->getStringFromFile("levels/levels.json");
     levelsDoc.Parse(levelsData.c_str());
 
     if (!levelsDoc.HasParseError()) {

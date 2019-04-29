@@ -10,6 +10,8 @@ const cocos2d::Color3B fm::Constants::BUTTON_COLOR = cocos2d::Color3B(0, 191, 12
 
 //
 
+const float fm::Constants::BORDER_RATIO = 0.05f;
+
 const float fm::Constants::MEDIUM_TEXT_RATIO = 0.5f;
 const float fm::Constants::LARGE_TEXT_RATIO = 0.75f;
 
@@ -23,4 +25,12 @@ const float fm::Constants::BUTTON_ZOOM_SCALE = -0.1f;
 
 //
 
+const std::string fm::Constants::TEXTURES_PATH = "textures";
+const std::string fm::Constants::TEXTURE_FILE_NAME = "tex.plist";
+
 const std::string fm::Constants::PROGRESS_FILE_NAME = "progress.json";
+
+const std::string fm::Constants::LEVELS_PATH = "levels";
+const std::string fm::Constants::LEVELS_FILE_NAME = "levels.json";
+const std::string fm::Constants::LEVEL_FILE_PREFIX = "level_";
+const std::string fm::Constants::LEVEL_FILE_SUFFIX = ".json";

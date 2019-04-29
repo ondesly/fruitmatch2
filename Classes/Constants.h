@@ -21,6 +21,8 @@ namespace fm {
 
     public:
 
+        static const float BORDER_RATIO;
+
         static const float MEDIUM_TEXT_RATIO;
         static const float LARGE_TEXT_RATIO;
 
@@ -34,7 +36,15 @@ namespace fm {
 
     public:
 
+        static const std::string TEXTURES_PATH;
+        static const std::string TEXTURE_FILE_NAME;
+
         static const std::string PROGRESS_FILE_NAME;
+
+        static const std::string LEVELS_PATH;
+        static const std::string LEVELS_FILE_NAME;
+        static const std::string LEVEL_FILE_PREFIX;
+        static const std::string LEVEL_FILE_SUFFIX;
 
     };
 
