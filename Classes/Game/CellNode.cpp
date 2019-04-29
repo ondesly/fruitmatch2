@@ -78,7 +78,8 @@ void fm::CellNode::setThingNode(ThingNode *const thingNode) {
         return;
     }
 
-    mThingNode->setScale(getContentSize().width / mThingNode->getContentSize().width * THING_SIZE_RATIO);
+    auto thingSize = std::max(mThingNode->getContentSize().width, mThingNode->getContentSize().height);
+    mThingNode->setScale(getContentSize().width / thingSize * THING_SIZE_RATIO);
     mThingNode->setDefaultPosition(getPosition());
 }
 
@@ -114,6 +115,16 @@ void fm::CellNode::onTouchMoved(cocos2d::Touch *touch, cocos2d::Event *unusedEve
     auto deltaPosition = new_position - getPosition();
     auto deltaSize = getContentSize() / 2 - mThingNode->getContentSize() / 2 * mThingNode->getScale();
 
+    // One axis
+
+    if (std::abs(deltaPosition.x) > std::abs(deltaPosition.y)) {
+        new_position.y = getPosition().y;
+        deltaPosition.y = 0;
+    } else {
+        new_position.x = getPosition().x;
+        deltaPosition.x = 0;
+    }
+
     // Check direction
 
     if (deltaPosition.x < 0 && !mDirections[Direction::LEFT]) {
@@ -134,18 +145,6 @@ void fm::CellNode::onTouchMoved(cocos2d::Touch *touch, cocos2d::Event *unusedEve
     if (deltaPosition.y < 0 && !mDirections[Direction::BOTTOM]) {
         mThingNode->setPosition(getPosition());
         return;
-    }
-
-    // One axis
-
-
-
-    if (std::abs(deltaPosition.x) > std::abs(deltaPosition.y)) {
-        new_position.y = getPosition().y;
-        deltaPosition.y = 0;
-    } else {
-        new_position.x = getPosition().x;
-        deltaPosition.x = 0;
     }
 
     //
