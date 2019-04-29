@@ -42,7 +42,7 @@ bool fm::GameLayout::init() {
                 break;
             case Action::DONE:
                 bool value = true;
-                _eventDispatcher->dispatchCustomEvent(ThingNode::TOUCH_ENABLED_EVENT_NAME, &value);
+                _eventDispatcher->dispatchCustomEvent(CellNode::TOUCH_ENABLED_EVENT_NAME, &value);
                 break;
         }
 
@@ -121,12 +121,20 @@ void fm::GameLayout::setThings(const std::vector<Thing> &things) {
 size_t fm::GameLayout::getNeighbourIndex(size_t index, const fm::CellNode::Direction direction) const {
     switch (direction) {
         case CellNode::Direction::LEFT:
+            if (index % mM == 0) {
+                return mCells.size();
+            }
+
             index -= 1;
             break;
         case CellNode::Direction::TOP:
             index -= mM;
             break;
         case CellNode::Direction::RIGHT:
+            if (index % mM == mM - 1) {
+                return mCells.size();
+            }
+
             index += 1;
             break;
         case CellNode::Direction::BOTTOM:
@@ -173,7 +181,7 @@ void fm::GameLayout::onHit(const size_t index, const fm::CellNode::Direction dir
             swap(index, neighbourIndex);
 
             bool value = false;
-            _eventDispatcher->dispatchCustomEvent(ThingNode::TOUCH_ENABLED_EVENT_NAME, &value);
+            _eventDispatcher->dispatchCustomEvent(CellNode::TOUCH_ENABLED_EVENT_NAME, &value);
 
             ++mMoves;
             _eventDispatcher->dispatchCustomEvent(MOVES_CHANGED_EVENT_NAME);
@@ -392,4 +400,24 @@ void fm::GameLayout::onExit() {
     Node::onExit();
 
     _eventDispatcher->removeEventListener(mOnAction);
+}
+
+void fm::GameLayout::layout() {
+    TableLayout::layout();
+
+    // Enabled and disabled directions
+
+    for (auto cell : mCells) {
+        if (!cell->isVisible()) {
+            continue;
+        }
+
+        auto index = cell->getIndex();
+        cell->setDirections({
+                {CellNode::Direction::LEFT, getNeighbourIndex(index, CellNode::Direction::LEFT) != mCells.size()},
+                {CellNode::Direction::TOP, getNeighbourIndex(index, CellNode::Direction::TOP) != mCells.size()},
+                {CellNode::Direction::RIGHT, getNeighbourIndex(index, CellNode::Direction::RIGHT) != mCells.size()},
+                {CellNode::Direction::BOTTOM, getNeighbourIndex(index, CellNode::Direction::BOTTOM) != mCells.size()}
+        });
+    }
 }

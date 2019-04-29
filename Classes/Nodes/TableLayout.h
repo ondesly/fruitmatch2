@@ -17,7 +17,7 @@ namespace fm {
 
         bool init() override;
 
-        void layout();
+        virtual void layout();
 
     protected:
 

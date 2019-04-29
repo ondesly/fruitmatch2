@@ -46,6 +46,8 @@ namespace fm {
 
         void onExit() override;
 
+        void layout() override;
+
         void addCell(bool is_enabled);
 
         void setThings(const std::vector<Thing> &things);
